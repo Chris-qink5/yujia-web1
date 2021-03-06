@@ -1,0 +1,17 @@
+
+spring:
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql:///stage3pro
+    username: root
+    password: 1044
+server:
+  port: 8888
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
