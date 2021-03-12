@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author qk
+ * @since 2021-03-10
  * @since 2021-03-09
  */
 public interface YogagyminfoMapper extends BaseMapper<Yogagyminfo> {

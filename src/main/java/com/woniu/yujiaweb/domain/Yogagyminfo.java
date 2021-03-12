@@ -16,6 +16,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author qk
+ * @since 2021-03-10
  * @since 2021-03-09
  */
 @Data
@@ -41,6 +42,8 @@ public class Yogagyminfo implements Serializable {
     private String gymDescription;
 
     private String gymPhoto;
+
+    private Integer attention;
 
 
 }

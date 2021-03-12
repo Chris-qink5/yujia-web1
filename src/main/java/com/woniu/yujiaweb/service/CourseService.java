@@ -8,9 +8,14 @@ import com.baomidou.mybatisplus.extension.service.IService;
  *  服务类
  * </p>
  *
- * @author yym
- * @since 2021-03-11
+ * @author qk
+ * @since 2021-03-09
  */
 public interface CourseService extends IService<Course> {
 
+    int insertCourse(Course course);
+
+    int updateCourse(Course course);
+
+    int deletedCourseByid(Integer id);
 }

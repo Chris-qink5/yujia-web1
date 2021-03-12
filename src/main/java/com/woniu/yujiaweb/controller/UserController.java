@@ -2,70 +2,37 @@ package com.woniu.yujiaweb.controller;
 
 
 import com.alibaba.druid.support.spring.stat.annotation.Stat;
-import com.aliyuncs.exceptions.ClientException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.woniu.yujiaweb.domain.Permission;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-
-
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-
-import com.woniu.yujiaweb.domain.AlipayBean;
 import com.woniu.yujiaweb.domain.User;
-import com.woniu.yujiaweb.domain.UserInfo;
 import com.woniu.yujiaweb.dto.Result;
 import com.woniu.yujiaweb.dto.StatusCode;
-import com.woniu.yujiaweb.mapper.UserMapper;
-import com.woniu.yujiaweb.service.UserInfoService;
 import com.woniu.yujiaweb.service.UserService;
 import com.woniu.yujiaweb.service.impl.UserServiceImpl;
-import com.woniu.yujiaweb.util.AliyunSmsUtils;
 import com.woniu.yujiaweb.util.JWTUtil;
-import com.woniu.yujiaweb.util.MailUtils;
-import com.woniu.yujiaweb.util.SaltUtil;
-import com.woniu.yujiaweb.vo.*;
+import com.woniu.yujiaweb.vo.PageGymVo;
+import com.woniu.yujiaweb.vo.PageUserVo;
+import com.woniu.yujiaweb.vo.PageVo;
+import com.woniu.yujiaweb.vo.UserVO;
+import com.woniu.yujiaweb.vo.YuJiaVO;
 import io.swagger.annotations.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.crypto.hash.Md5Hash;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.*;
-
-import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
-
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
-import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import javax.mail.MessagingException;
-import javax.sound.midi.Soundbank;
-
-import java.io.File;
-import java.io.IOException;
-
-import java.util.*;
 
 /**
  * <p>
@@ -80,7 +47,8 @@ import java.util.*;
 public class UserController {
     @Resource
     private UserService userService;
-    @Autowired
+
+    @Resource
     private RedisTemplate<String,Object> redisTemplate;
     @Resource
     private UserInfoService userInfoService;
@@ -183,9 +151,8 @@ public class UserController {
         }
 //      创建jwt,并将通过验证的用户保存到后端session中
         HashMap<String, String> map = new HashMap<>();
-        map.put("username",userVO.getUsername());
 
-        map.put("username", userVO.getUsername());
+        map.put("username",userVO.getUsername());
         String jwtToken = JWTUtil.createToken(map);
         JWTUtil.getUsernames().add(userVO.getUsername());
         System.out.println(jwtToken);
@@ -520,7 +487,23 @@ public class UserController {
         QueryWrapper.eq("cg.yogagym_id",selectgymid);
         Page<CoachVo> allattentiongym = userService.findattentiongym(coachVo, QueryWrapper);
 
-        return  new Result(true, StatusCode.OK,"查询成功",allattentiongym);
+
+
+    @RequestMapping("attention/{id}")
+    @ResponseBody
+    public Result attention(@PathVariable Integer id,User user){
+        user.setAttention(1);
+        userService.update(user);
+        return new Result(true,StatusCode.OK,"关注成功");
+    }
+
+    @RequestMapping("deletedAttention/{id}")
+    @ResponseBody
+    public Result deletedAttention(@PathVariable Integer id,User user){
+        user.setAttention(0);
+        userService.update(user);
+        return new Result(true,StatusCode.OK,"取消关注成功");
+
     }
     @ApiOperation(value = "退出登陆",notes = "<span style='color:red;'>用来退出登陆</span>")
     //@ApiImplicitParams用于描述接口参数
@@ -634,7 +617,5 @@ public class UserController {
         Page<PageUserVo> allAdmin = userService.findAllAdmin(pageUserVo);
         return new Result(true, StatusCode.OK,"查询所有学员信息成功",allAdmin);
     }
-
-
 }
 

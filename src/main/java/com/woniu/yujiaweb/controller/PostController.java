@@ -2,14 +2,19 @@ package com.woniu.yujiaweb.controller;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.woniu.yujiaweb.domain.Advert;
 import com.woniu.yujiaweb.domain.Post;
 import com.woniu.yujiaweb.dto.Result;
 import com.woniu.yujiaweb.dto.StatusCode;
+import com.woniu.yujiaweb.service.AdvertService;
 import com.woniu.yujiaweb.service.PostService;
 import com.woniu.yujiaweb.vo.PageVO;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.stereotype.Controller;
+
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -27,7 +32,7 @@ public class PostController {
     private PostService postService;
     //查询所有的帖子信息
     @GetMapping("allPost")
-    public Result getAllPost(PageVO pageVo){
+    public Result getAllPost(PageVo pageVo){
         IPage<Post> allPost = postService.getAllPost(pageVo);
         return new Result(true, StatusCode.OK,"查询帖子内容成功",allPost);
     }

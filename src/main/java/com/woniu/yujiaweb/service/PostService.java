@@ -1,6 +1,7 @@
 package com.woniu.yujiaweb.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.woniu.yujiaweb.domain.Advert;
 import com.woniu.yujiaweb.domain.Post;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.woniu.yujiaweb.vo.PageVO;
@@ -15,7 +16,7 @@ import com.woniu.yujiaweb.vo.PageVO;
  */
 public interface PostService extends IService<Post> {
     //分页查询所有的帖子信息
-    public IPage<Post> getAllPost(PageVO pageVo);
+    public IPage<Post> getAllPost(PageVo pageVo);
 
     //删除指定的帖子信息
     public boolean delPost(Integer id);

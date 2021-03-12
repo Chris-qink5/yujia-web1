@@ -1,6 +1,7 @@
 package com.woniu.yujiaweb.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.woniu.yujiaweb.domain.Advert;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.woniu.yujiaweb.vo.PageVO;

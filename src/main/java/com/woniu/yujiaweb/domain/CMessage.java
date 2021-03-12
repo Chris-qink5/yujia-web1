@@ -2,6 +2,7 @@ package com.woniu.yujiaweb.domain;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
+import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
@@ -16,48 +17,50 @@ import lombok.experimental.Accessors;
  * 
  * </p>
  *
-<<<<<<< HEAD
- * @author yym
-=======
  * @author qk
->>>>>>> la
  * @since 2021-03-09
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("t_user_info")
-@ApiModel(value="UserInfo对象", description="")
-public class UserInfo implements Serializable {
+@TableName("t_c_message")
+@ApiModel(value="CMessage对象", description="")
+public class CMessage implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private Integer uid;
+    private Integer uId;
+
+    private String headPhoto;
+
+    private String nickname;
 
     private String username;
+
+    private String site;
+
+    private String description;
+
+    @TableField("idCard")
+    private String idCard;
 
     @TableField("bankCard")
     private String bankCard;
 
-    private Double score;
+    private String sex;
 
-    private Double spend;
+    private Date birthday;
 
-        @ApiModelProperty(value = "用户没有填写，默认保密")
-        private String sex;
+        @ApiModelProperty(value = "默认全部公开（1），可设置：好友公开（2），保密（0）")
+        private Integer secrecy;
 
-        @ApiModelProperty(value = "默认为0保密，1为公开")
-        private Integer secret;
+    private Integer attentionId;
 
-        @ApiModelProperty(value = "默认为0好友公开，1为全部公开")
-        private Integer open;
-
-    private String userHeadPortrait;
-
-    private String nickname;
+        @ApiModelProperty(value = "默认余额为0")
+        private Double account;
 
 
 }

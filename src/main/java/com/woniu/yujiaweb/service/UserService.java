@@ -2,7 +2,6 @@ package com.woniu.yujiaweb.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.woniu.yujiaweb.domain.Permission;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.woniu.yujiaweb.domain.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.woniu.yujiaweb.vo.PageGymVo;
@@ -10,8 +9,7 @@ import com.woniu.yujiaweb.vo.PageUserVo;
 
 import java.util.List;
 
-import com.woniu.yujiaweb.vo.CoachVo;
-import com.woniu.yujiaweb.vo.GymVo;
+import java.util.List;
 
 /**
  * <p>
@@ -24,8 +22,6 @@ import com.woniu.yujiaweb.vo.GymVo;
 public interface UserService extends IService<User> {
     public List<Permission> findManue(String username);
     public List<Permission> findManue2(String username);
-    //保存角色id
-    void saveUserAndRole(String uid,String rid);
     public List<User>  findPlace();
     public List<User>  findYPlace(int yid);
 
@@ -91,4 +87,7 @@ Page<CoachVo> selectStudentinfo( CoachVo coachVo,QueryWrapper<CoachVo> queryWrap
     void deleteclass(Integer coachid, Integer classId);
 
     Page<CoachVo> findattentiongym(CoachVo coachVo, QueryWrapper<CoachVo> queryWrapper);
+    void update(User user);
+
+//    void updateById(Integer id);
 }

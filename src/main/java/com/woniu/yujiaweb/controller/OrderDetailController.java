@@ -1,16 +1,15 @@
 package com.woniu.yujiaweb.controller;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.woniu.yujiaweb.dto.Result;
 import com.woniu.yujiaweb.dto.StatusCode;
 import com.woniu.yujiaweb.service.OrderDetailService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.ResponseBody;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.woniu.yujiaweb.vo.OrderDetailVo;
+import com.woniu.yujiaweb.vo.PageVo;
 import org.springframework.web.bind.annotation.*;
+
+import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
 
@@ -28,6 +27,14 @@ public class OrderDetailController {
 
     @Resource
     private OrderDetailService orderDetailService;
+    @GetMapping("/findOrderDetailC")
+    @ResponseBody
+    public Result findOrderDetail(String coachName){
+        return new Result(true, StatusCode.OK,"查询订单成功",orderDetailService.findOrderDetailC(coachName));
+    }
+
+
+
     //查询所有的订单信息
     @GetMapping("queryAllOrder")
     public Result queryAllOrder(OrderDetailVo orderDetailVo){

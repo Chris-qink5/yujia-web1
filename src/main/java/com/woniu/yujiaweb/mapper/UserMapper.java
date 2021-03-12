@@ -10,6 +10,8 @@ import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.woniu.yujiaweb.domain.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Update;
 import com.woniu.yujiaweb.vo.PageGymVo;
 import com.woniu.yujiaweb.vo.PageUserVo;
 import org.apache.ibatis.annotations.Param;
@@ -84,6 +86,9 @@ public interface UserMapper extends BaseMapper<User> {
     public List<PageGymVo> queryAllGym(Page<PageGymVo> pageGymVoPage,@Param(Constants.WRAPPER) QueryWrapper<PageGymVo> queryWrapper);
     @Select("SELECT u.* FROM t_user u INNER JOIN t_user_role ur ON u.`id`=ur.`uid` AND ur.`rid`=3")
     public List<User> findPlace();
+
+    @Insert("insert into t_user_role (uid,rid) values (#{uid},#{rid})")
+    void saveUserAndRole(String uid, String rid);
 
     @Select("SELECT u.* FROM t_user u INNER JOIN t_yujia_place yp ON u.`id`=yp.`pid` WHERE yp.`yid`=#{yid}")
     public List<User> findYPlace(int yid);

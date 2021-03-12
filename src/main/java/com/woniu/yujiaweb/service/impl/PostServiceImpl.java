@@ -1,16 +1,27 @@
 package com.woniu.yujiaweb.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.woniu.yujiaweb.domain.Advert;
 import com.woniu.yujiaweb.domain.Post;
+import com.woniu.yujiaweb.domain.User;
 import com.woniu.yujiaweb.mapper.PostMapper;
 import com.woniu.yujiaweb.service.PostService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.woniu.yujiaweb.vo.PageVO;
+import com.woniu.yujiaweb.vo.PageVO;
+
+import io.lettuce.core.RedisClient;
+import javafx.geometry.Pos;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -30,7 +41,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 
     //分页查询所有的帖子信息
     @Override
-    public IPage<Post> getAllPost(PageVO pageVo) {
+    public IPage<Post> getAllPost(PageVo pageVo) {
 //        //查询数据的流程 先从redis缓存中去拿取数据  如果没有 再去数据库中查询
 //
 //        //判断查询出来的数据是否为空

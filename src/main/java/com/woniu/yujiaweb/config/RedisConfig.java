@@ -1,5 +1,8 @@
 package com.woniu.yujiaweb.config;
 
+import com.baomidou.mybatisplus.core.injector.ISqlInjector;
+import com.woniu.yujiaweb.domain.CMessage;
+import com.woniu.yujiaweb.domain.Course;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
@@ -27,5 +30,14 @@ public class RedisConfig {
         stringObjectRedisTemplate.setHashValueSerializer(stringRedisSerializer);
         return stringObjectRedisTemplate;
     }
+    @Bean
+    public CMessage getCMessage(){
+        return new CMessage();
+    }
+    @Bean
+    public Course getCourse(){
+        return new Course();
+    }
+
 }
 

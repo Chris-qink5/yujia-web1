@@ -31,24 +31,24 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-        @ApiModelProperty(value = "主键，并自增")
-        @TableId(value = "id", type = IdType.AUTO)
+    @ApiModelProperty(value = "主键，并自增")
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-        @ApiModelProperty(value = "如果用户没填写，系统自动生成一个")
-        private String username;
+    @ApiModelProperty(value = "如果用户没填写，系统自动生成一个")
+    private String username;
 
-        @ApiModelProperty(value = "需要对密码加密，不能明文")
-        private String password;
+    @ApiModelProperty(value = "需要对密码加密，不能明文")
+    private String password;
 
-        @ApiModelProperty(value = "密码加密")
-        private String salt;
+    @ApiModelProperty(value = "密码加密")
+    private String salt;
 
         @ApiModelProperty(value = "电话号码可以为null，注册需要使用电话号码")
         private String tel;
 
-        @ApiModelProperty(value = "邮箱可以为null")
-        private String email;
+    @ApiModelProperty(value = "邮箱可以为null")
+    private String email;
 
         @ApiModelProperty(value = "默认为0,1为删除")
         @TableLogic
@@ -61,4 +61,9 @@ public class User implements Serializable {
         private Date gmtModifified;
 
 
+
+    @ApiModelProperty(value = "积分默认为0")
+    private Integer score;
+
+    private Integer attention;
 }

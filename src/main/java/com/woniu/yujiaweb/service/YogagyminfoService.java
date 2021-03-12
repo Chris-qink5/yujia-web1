@@ -1,5 +1,11 @@
 package com.woniu.yujiaweb.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.woniu.yujiaweb.domain.User;
+import com.woniu.yujiaweb.domain.Yogagyminfo;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.woniu.yujiaweb.vo.UserInfoVO;
+import com.woniu.yujiaweb.vo.YogagyminfoVO;
 import com.woniu.yujiaweb.domain.Yogagyminfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -9,10 +15,13 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author qk
- * @since 2021-03-09
+ * @since 2021-03-10
  */
 public interface YogagyminfoService extends IService<Yogagyminfo> {
+    Page<Yogagyminfo> findByCondition(YogagyminfoVO yogagyminfoVO);
 
-    //修改场馆的详细信息
+    void update(Yogagyminfo yogagyminfo);
+
+  //修改场馆的详细信息
     public boolean updateGym(Yogagyminfo yogagyminfo);
 }

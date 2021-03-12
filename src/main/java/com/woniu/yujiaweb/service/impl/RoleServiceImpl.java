@@ -3,6 +3,7 @@ package com.woniu.yujiaweb.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.woniu.yujiaweb.domain.Role;
+import com.woniu.yujiaweb.domain.User;
 import com.woniu.yujiaweb.mapper.RoleMapper;
 import com.woniu.yujiaweb.service.RoleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -29,7 +30,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     //查询所有的角色信息
     @Override
-    public IPage<Role> findAllRole(PageVO pageVo) {
+    public IPage<Role> findAllRole(PageVo pageVo) {
         Page<Role> rolePage = new Page<>(pageVo.getCurrent(),pageVo.getSize());
         IPage<Role> allRole = roleMapper.selectPage(rolePage, null);
         return allRole;

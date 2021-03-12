@@ -13,6 +13,7 @@ import java.util.List;
  *  Mapper 接口
  * </p>
  *
+<<<<<<< HEAD
  * @author yym
  * @since 2021-03-09
  */
@@ -28,4 +29,3 @@ public interface UserInfoMapper extends BaseMapper<UserInfo> {
             "where ui.username=#{username}")
     int updateUserInfoByUsername(String username);
 
-}

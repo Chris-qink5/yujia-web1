@@ -9,6 +9,8 @@ import com.woniu.yujiaweb.service.AdvertService;
 import com.woniu.yujiaweb.vo.PageVO;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.stereotype.Controller;
+
 import javax.annotation.Resource;
 
 /**

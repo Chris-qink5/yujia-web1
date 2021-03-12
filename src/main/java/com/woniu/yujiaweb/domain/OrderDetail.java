@@ -17,8 +17,6 @@ import lombok.experimental.Accessors;
  * 
  * </p>
  *
- * @author yym
- * @since 2021-03-11
  * @author qk
  * @since 2021-03-08
  */
@@ -52,9 +50,19 @@ public class OrderDetail implements Serializable {
     @ApiModelProperty(value = "默认为未支付0，1为已支付")
     private Integer status;
 
+    private Integer uId;
+
+    private String username;
+
+    private String coachName;
+
+    private String courseName;
+
+    private Date courseTime;
+
+
+
     @TableLogic
     private Integer deleted; //逻辑删除
-
-
 
 }
