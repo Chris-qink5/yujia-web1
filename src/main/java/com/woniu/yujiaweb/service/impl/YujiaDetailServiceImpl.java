@@ -33,9 +33,9 @@ public class YujiaDetailServiceImpl extends ServiceImpl<YujiaDetailMapper, Yujia
         YujiaDetail yujiaDetail = yujiaDetailMapper.selectOne(queryWrapper);
 
         //查询众筹项目的场馆名称
-        String gymName = yujiaDetailMapper.findGymName(yujiaDetail.getPlId());
+        String gymName = yujiaDetailMapper.findGymName(3);
         //查询众筹项目的教练名称
-        String couName = yujiaDetailMapper.findCouName(yujiaDetail.getCId());
+        String couName = yujiaDetailMapper.findCouName(2);
         //一个项目的学员有多个 定义一个集合来存储uid的集合
         ArrayList<Integer> uid = new ArrayList<>();
         //定义一个集合 来存储用户姓名

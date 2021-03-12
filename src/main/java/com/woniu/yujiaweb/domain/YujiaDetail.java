@@ -31,17 +31,17 @@ public class YujiaDetail implements Serializable {
     private Integer id;
 
     private Integer yid;
-    private Integer detailId;
+//    private Integer detailId;
 
     private Double coursePrice;
 
     private String courseDescribe;
 
-    private Integer cId;
+//    private Integer cId;
 
     private Integer uId;
 
-    private Integer plId;
+//    private Integer plId;
     private String coach;
 
 
