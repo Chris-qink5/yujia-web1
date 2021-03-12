@@ -1,5 +1,8 @@
 package com.woniu.yujiaweb.domain;
 
+
+import com.baomidou.mybatisplus.annotation.TableLogic;
+
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import java.util.Date;
@@ -17,7 +20,11 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author qk
+<<<<<<< HEAD
  * @since 2021-03-12
+=======
+ * @since 2021-03-08
+>>>>>>> 26d8518267317c6808d6142bd9cb291b5c039863
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -49,6 +56,11 @@ public class OrderDetail implements Serializable {
     private String courseName;
 
     private Date courseTime;
+
+
+
+    @TableLogic
+    private Integer deleted; //逻辑删除
 
 
 }

@@ -12,5 +12,6 @@ public class UserVO {
     private String contact;
     //角色id
     private String radio;
+    private Boolean checked;
 
 }

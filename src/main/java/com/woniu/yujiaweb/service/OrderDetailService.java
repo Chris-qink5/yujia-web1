@@ -1,7 +1,10 @@
 package com.woniu.yujiaweb.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.woniu.yujiaweb.domain.OrderDetail;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.woniu.yujiaweb.vo.OrderDetailVo;
 
 import java.util.List;
 
@@ -16,4 +19,13 @@ import java.util.List;
 public interface OrderDetailService extends IService<OrderDetail> {
 
     List<OrderDetail> findOrderDetailC(String coachName);
+
+
+    //查询所有的订单信息
+    public Page<OrderDetailVo> queryAllDetail(OrderDetailVo orderDetailVo);
+
+    //删除指定的订单信息
+    public boolean delOrder(Integer id);
+
+
 }

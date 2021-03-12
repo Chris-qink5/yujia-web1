@@ -6,6 +6,7 @@ import com.woniu.yujiaweb.domain.CMessage;
 import com.woniu.yujiaweb.domain.Course;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
@@ -16,6 +17,7 @@ import java.nio.charset.Charset;
 @Configuration
 public class RedisConfig {
     @Bean
+    @Scope("singleton")
     public RedisTemplate<String,Object> redisTemplate(RedisConnectionFactory redisConnectionFactory){
         RedisTemplate<String, Object> stringObjectRedisTemplate = new RedisTemplate<>();
         stringObjectRedisTemplate.setConnectionFactory(redisConnectionFactory);

@@ -3,7 +3,7 @@ package com.woniu.yujiaweb.vo;
 import lombok.Data;
 
 @Data
-public class YogagyminfoVO extends PageVO {
+public class YogagyminfoVO extends PageVo {
     private Integer minLength;
     private Integer maxLength;
     private Integer id;

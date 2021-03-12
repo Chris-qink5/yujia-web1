@@ -54,15 +54,16 @@ public class User implements Serializable {
     @ApiModelProperty(value = "邮箱可以为null")
     private String email;
 
-    @ApiModelProperty(value = "默认为0,1为删除")
-    @TableLogic
-    private Integer deleted;
 
-    @TableField(fill = FieldFill.INSERT)
-    private Date gmtCreate;
+        @ApiModelProperty(value = "默认为0,1为删除")
+        @TableLogic
+        private Integer deleted; //逻辑删除
 
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Date gmtModifified;
+        @TableField(fill = FieldFill.INSERT)
+        private Date gmtCreate;
+
+        @TableField(fill = FieldFill.INSERT_UPDATE)
+        private Date gmtModifified;
 
     @ApiModelProperty(value = "版本号，格式：version_数字|从1开始记")
     // TODO 版本号控制

@@ -11,4 +11,9 @@ public class StatusCode {
     public static final int MessagingException=20007;
     public static final int ACCOUNTEXISTS = 20008;//用户未注册,转换大小写快捷键ctrl+shift+u
     public static final int AUTHCODE=20009;//验证码错误
+
+    public static final int RepeatException=20011;
+
+
+
 }

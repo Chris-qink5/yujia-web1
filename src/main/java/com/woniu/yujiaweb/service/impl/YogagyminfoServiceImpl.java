@@ -1,11 +1,14 @@
 package com.woniu.yujiaweb.service.impl;
 
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
 import com.woniu.yujiaweb.domain.Yogagyminfo;
 import com.woniu.yujiaweb.mapper.YogagyminfoMapper;
 import com.woniu.yujiaweb.service.YogagyminfoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+
 import com.woniu.yujiaweb.vo.YogagyminfoVO;
 import org.apache.shiro.util.StringUtils;
 import org.springframework.stereotype.Service;
@@ -19,7 +22,11 @@ import javax.annotation.Resource;
  * </p>
  *
  * @author qk
+<<<<<<< HEAD
  * @since 2021-03-10
+=======
+ * @since 2021-03-09
+>>>>>>> 26d8518267317c6808d6142bd9cb291b5c039863
  */
 @Service
 public class YogagyminfoServiceImpl extends ServiceImpl<YogagyminfoMapper, Yogagyminfo> implements YogagyminfoService {
@@ -59,5 +66,15 @@ public class YogagyminfoServiceImpl extends ServiceImpl<YogagyminfoMapper, Yogag
     @Override
     public void update(Yogagyminfo yogagyminfo) {
         yogagyminfoMapper.updateById(yogagyminfo);
+
+    }
+    //修改场馆的信息
+    @Override
+    public boolean updateGym(Yogagyminfo yogagyminfo) {
+        int i = yogagyminfoMapper.updateById(yogagyminfo);
+        if(i > 0){
+            return true;
+        }
+        return false;
     }
 }

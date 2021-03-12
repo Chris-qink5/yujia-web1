@@ -2,12 +2,16 @@ package com.woniu.yujiaweb.controller;
 
 
 import com.aliyuncs.exceptions.ClientException;
+import com.alibaba.druid.support.spring.stat.annotation.Stat;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.woniu.yujiaweb.domain.Permission;
+import com.woniu.yujiaweb.domain.Permission;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.woniu.yujiaweb.domain.User;
 import com.woniu.yujiaweb.domain.Yogagyminfo;
 import com.woniu.yujiaweb.dto.Result;
@@ -19,17 +23,23 @@ import com.woniu.yujiaweb.util.AliyunSmsUtils;
 import com.woniu.yujiaweb.util.JWTUtil;
 import com.woniu.yujiaweb.util.MailUtils;
 import com.woniu.yujiaweb.util.SaltUtil;
-import com.woniu.yujiaweb.vo.PageVO;
+
 import com.woniu.yujiaweb.vo.UserInfoVO;
+import com.woniu.yujiaweb.vo.PageGymVo;
+import com.woniu.yujiaweb.vo.PageUserVo;
+import com.woniu.yujiaweb.vo.PageVo;
 import com.woniu.yujiaweb.vo.UserVO;
+import com.woniu.yujiaweb.vo.YuJiaVO;
 import io.swagger.annotations.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.Md5Hash;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
@@ -39,6 +49,7 @@ import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -137,6 +148,9 @@ public class UserController {
         map.put("username",userVO.getUsername());
         String jwtToken = JWTUtil.createToken(map);
         JWTUtil.getUsernames().add(userVO.getUsername());
+        System.out.println(jwtToken);
+        System.out.println("结束login");
+
         return new Result(true, StatusCode.OK,"登陆成功",jwtToken);
     }
     @PostMapping ("/getAuthCode")
@@ -255,17 +269,11 @@ public class UserController {
 //
 //    }
 
-    @PostMapping("/logout")
-    public Result show(@RequestBody UserVO userVO){
-        System.out.println("进入logout");
-        redisTemplate.delete(userVO.getUsername());
-        return new Result(true, StatusCode.OK,"注销成功");
 
-    }
 
 
     @GetMapping("page2")
-    public Result find2Page(PageVO pageVO){
+    public Result find2Page(PageVo pageVO){
         Page<User> filmPage = new Page<>(pageVO.getCurrent(), pageVO.getSize());
         IPage<User> page = userService.page(filmPage, null);
         return new Result(true,StatusCode.OK,"分页查询成功",page);
@@ -293,6 +301,46 @@ public class UserController {
         List<User> users = userMapper.selectList(wrapper);
         return new Result(true, StatusCode.OK, "查询关注用户信息成功",users);
     }
+    //@ApiOperation用于描述接口方法，作用于方法上
+    @ApiOperation(value = "查找一级列表",notes = "<span style='color:red;'>用来查找一级列表</span>")
+    //@ApiImplicitParams用于描述接口参数
+    @ApiResponses({
+            @ApiResponse(code =20000,message = "一级列表查找成功"),
+
+    })
+    @ApiImplicitParams({
+            //dataType:参数类型
+            //paramType:参数由哪里获取     path->从路径中获取，query->?传参，body->ajax请求
+            @ApiImplicitParam(name = "userVO",value = "用户名于密码组成的用户",dataType = "UserVO",example = "{username:'tom',password:'xxx'}"),
+
+    })
+    @RequestMapping("findManue")
+    @ResponseBody
+    public Result findManue(@RequestBody UserVO userVO){
+        System.out.println("进入find"+userVO.getUsername());
+        List<Permission> rootManue = userService.findManue(userVO.getUsername());
+        return new Result(true, StatusCode.OK,"一级列表查找成功",rootManue);
+
+    }
+    @ApiOperation(value = "查找二级列表",notes = "<span style='color:red;'>用来查找二级列表</span>")
+    //@ApiImplicitParams用于描述接口参数
+    @ApiResponses({
+            @ApiResponse(code =20000,message = "二级列表查找成功"),
+
+    })
+    @ApiImplicitParams({
+            //dataType:参数类型
+            //paramType:参数由哪里获取     path->从路径中获取，query->?传参，body->ajax请求
+            @ApiImplicitParam(name = "userVO",value = "用户名于密码组成的用户",dataType = "UserVO",example = "{username:'tom',password:'xxx'}"),
+
+    })
+    @RequestMapping("findManue2")
+    @ResponseBody
+    public Result findManue2(@RequestBody UserVO userVO){
+        System.out.println("进入find"+userVO.getUsername());
+        List<Permission> rootManue = userService.findManue2(userVO.getUsername());
+        return new Result(true, StatusCode.OK," ",rootManue);
+    }
 
 
 
@@ -315,6 +363,118 @@ public class UserController {
 
 
 
+    @ApiOperation(value = "退出登陆",notes = "<span style='color:red;'>用来退出登陆</span>")
+    //@ApiImplicitParams用于描述接口参数
+    @ApiResponses({
+            @ApiResponse(code =20000,message = "注销成功"),
 
+    })
+    @ApiImplicitParams({
+            //dataType:参数类型
+            //paramType:参数由哪里获取     path->从路径中获取，query->?传参，body->ajax请求
+            @ApiImplicitParam(name = "userVO",value = "用户名于密码组成的用户",dataType = "UserVO",example = "{username:'tom',password:'xxx'}"),
+
+    })
+
+    @PostMapping("/logout")
+    public Result show(@RequestBody UserVO userVO){
+        System.out.println("进入logout");
+       redisTemplate.delete(userVO.getUsername());
+        return new Result(true, StatusCode.OK,"注销成功");
+
+    }
+
+    @ApiOperation(value = "退出登陆",notes = "<span style='color:red;'>用来退出登陆</span>")
+    //@ApiImplicitParams用于描述接口参数
+    @ApiResponses({
+            @ApiResponse(code =20000,message = "注销成功"),
+
+    })
+    @ApiImplicitParams({
+            //dataType:参数类型
+            //paramType:参数由哪里获取     path->从路径中获取，query->?传参，body->ajax请求
+            @ApiImplicitParam(name = "userVO",value = "用户名于密码组成的用户",dataType = "UserVO",example = "{username:'tom',password:'xxx'}"),
+
+    })
+    @GetMapping("/findPlace")
+    public Result findPlace(){
+        List<User> place = userService.findPlace();
+        ArrayList<String> places = new ArrayList<>();
+        place.forEach(p->{
+            places.add(p.getUsername());
+        });
+        return new Result(true, StatusCode.OK,"查询场馆成功",places);
+    }
+
+    @PostMapping("/findYPlace")
+    @ResponseBody
+    public Result findYPlace(@RequestBody YuJiaVO yuJiaVO){
+        List<User> yPlace = userService.findYPlace(yuJiaVO.getYid());
+        return new Result(true, StatusCode.OK,"查询发起众筹的场馆成功",yPlace);
+    }
+
+    //获取所有的学员信息
+    @GetMapping("/findAllStudent")
+    public Result findAllStudent(PageUserVo pageUserVo){
+        //获取学员的对应的角色id(可根据学院姓名去数据库中查找)
+        System.out.println("当前页" + pageUserVo.getCurrent());
+        Integer rid = 1;
+        Page<PageUserVo> allStudent = userService.findAllUser(pageUserVo);
+        return new Result(true, StatusCode.OK,"查询所有学员信息成功",allStudent);
+    }
+    //获取所有的教练信息
+    @GetMapping("/findAllCoach")
+    public Result findAllCoach(PageUserVo pageUserVo){
+        //获取学员的对应的角色id(可根据学院姓名去数据库中查找)
+        Integer rid = 2;
+        Page<PageUserVo> allCoach = userService.findAllUser(pageUserVo);
+        return new Result(true, StatusCode.OK,"查询所有学员信息成功",allCoach);
+    }
+    //获取所有的场馆信息
+    @GetMapping("/findAllGym")
+    public Result findAllGym(PageGymVo pageGymVo){
+        //获取学员的对应的角色id(可根据学院姓名去数据库中查找)
+        Integer rid = 3;
+        Page<PageGymVo> allGym = userService.findAllGym(pageGymVo);
+        return new Result(true, StatusCode.OK,"查询所有学员信息成功",allGym);
+    }
+
+    //删除学员的信息
+    @PostMapping("/delStudent/{id}")
+    public Result delStudent(@PathVariable Integer id){
+        System.out.println("删除id" + id);
+        Boolean b = userService.delStudent(id);
+        if(b){
+            return new Result(true,StatusCode.OK,"删除成功");
+        }
+        return new Result(false,StatusCode.ERROR,"删除失败");
+    }
+
+    //修改学员的信息
+    @PostMapping("/updateStudent")
+    public Result updateStudent(@RequestBody User user){
+        System.out.println("要删除的信息" + user);
+        Boolean f = userService.updateStudent(user);
+        if(f){
+            return new Result(true,StatusCode.OK,"修改成功");
+        }else{
+            return new Result(false,StatusCode.ERROR,"修改失败");
+        }
+    }
+
+    //修改场馆的信息
+    @PostMapping("updateGym")
+    public Result updateGym(@RequestBody PageGymVo pageGymVo){
+        return new Result(true,StatusCode.OK,"修改成功");
+    }
+
+    //获取所有的管理员信息
+    @GetMapping("/findAllAdmin")
+    public Result findAllAdmin(PageUserVo pageUserVo){
+        //获取学员的对应的角色id(可根据学院姓名去数据库中查找)
+        Integer rid = 4;
+        Page<PageUserVo> allAdmin = userService.findAllAdmin(pageUserVo);
+        return new Result(true, StatusCode.OK,"查询所有学员信息成功",allAdmin);
+    }
 }
 

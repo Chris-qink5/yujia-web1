@@ -6,6 +6,8 @@ import com.woniu.yujiaweb.domain.Yogagyminfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.woniu.yujiaweb.vo.UserInfoVO;
 import com.woniu.yujiaweb.vo.YogagyminfoVO;
+import com.woniu.yujiaweb.domain.Yogagyminfo;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * <p>
@@ -19,4 +21,7 @@ public interface YogagyminfoService extends IService<Yogagyminfo> {
     Page<Yogagyminfo> findByCondition(YogagyminfoVO yogagyminfoVO);
 
     void update(Yogagyminfo yogagyminfo);
+
+  //修改场馆的详细信息
+    public boolean updateGym(Yogagyminfo yogagyminfo);
 }

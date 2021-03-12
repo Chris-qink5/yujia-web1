@@ -9,12 +9,20 @@ import com.woniu.yujiaweb.dto.Result;
 import com.woniu.yujiaweb.dto.StatusCode;
 import com.woniu.yujiaweb.mapper.YogagyminfoMapper;
 import com.woniu.yujiaweb.service.YogagyminfoService;
-import com.woniu.yujiaweb.vo.PageVO;
+import com.woniu.yujiaweb.vo.PageVo;
 import com.woniu.yujiaweb.vo.YogagyminfoVO;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
 
 /**
  * <p>
@@ -23,6 +31,7 @@ import java.util.List;
  *
  * @author qk
  * @since 2021-03-10
+ * @since 2021-03-09
  */
 @RestController
 @RequestMapping("/yogagyminfo")
@@ -34,7 +43,7 @@ public class YogagyminfoController {
 
 
     @GetMapping("page2")
-    public Result find2Page(PageVO pageVO){
+    public Result find2Page(PageVo pageVO){
         Page<Yogagyminfo> filmPage = new Page<>(pageVO.getCurrent(), pageVO.getSize());
         IPage<Yogagyminfo> page = yogagyminfoService.page(filmPage, null);
         return new Result(true,StatusCode.OK,"分页查询成功",page);
@@ -79,5 +88,18 @@ public class YogagyminfoController {
         yogagyminfoService.update(yogagyminfo);
         return new Result(true,StatusCode.OK,"取消关注成功");
     }
+
+
+    @PostMapping("updateGym")
+    public Result updateGym(@RequestBody Yogagyminfo yogagyminfo){
+        System.out.println("修改方法");
+        boolean b = yogagyminfoService.updateGym(yogagyminfo);
+        if(b){
+            return new Result(true, StatusCode.OK,"成功修改场馆信息");
+        }
+        return new Result(false, StatusCode.ERROR,"修改场馆信息失败");
+    }
+
+
 }
 
