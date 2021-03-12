@@ -35,7 +35,7 @@ import java.util.List;
  * @author qk
  * @since 2021-03-09
  */
-@Controller
+@RestController
 @RequestMapping("/yujiaDetail")
 public class YujiaDetailController {
     @Resource

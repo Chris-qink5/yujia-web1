@@ -29,13 +29,13 @@ public class YujiaDetailServiceImpl extends ServiceImpl<YujiaDetailMapper, Yujia
     @Override
     public YujiaDetailVo queryYijiaDetail(Integer id) {
         QueryWrapper<YujiaDetail> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("detail_id",id);
+        queryWrapper.eq("yid",id);
         YujiaDetail yujiaDetail = yujiaDetailMapper.selectOne(queryWrapper);
 
-        //查询众筹项目的场馆名称
-        String gymName = yujiaDetailMapper.findGymName(yujiaDetail.getPlId());
-        //查询众筹项目的教练名称
-        String couName = yujiaDetailMapper.findCouName(yujiaDetail.getCId());
+        //查询众筹项目的id查询众筹项目的场馆名称
+        String gymName = yujiaDetailMapper.findGymName(yujiaDetail.getYid());
+//        //查询众筹项目的教练名称
+//        String couName = yujiaDetailMapper.findCouName(yujiaDetail.getCId());
         //一个项目的学员有多个 定义一个集合来存储uid的集合
         ArrayList<Integer> uid = new ArrayList<>();
         //定义一个集合 来存储用户姓名
@@ -49,7 +49,7 @@ public class YujiaDetailServiceImpl extends ServiceImpl<YujiaDetailMapper, Yujia
 
         //存储项目详情信息
         YujiaDetailVo yujiaDetailVo = new YujiaDetailVo();
-        yujiaDetailVo.setCName(couName);
+        yujiaDetailVo.setCName(yujiaDetail.getCoach());
         yujiaDetailVo.setPName(gymName);
         yujiaDetailVo.setSName(strings);
         yujiaDetailVo.setCourseDescribe(yujiaDetail.getCourseDescribe());
