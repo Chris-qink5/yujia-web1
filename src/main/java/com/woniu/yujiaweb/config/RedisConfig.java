@@ -1,7 +1,6 @@
 package com.woniu.yujiaweb.config;
 
 import com.baomidou.mybatisplus.core.injector.ISqlInjector;
-import com.baomidou.mybatisplus.extension.injector.LogicSqlInjector;
 import com.woniu.yujiaweb.domain.CMessage;
 import com.woniu.yujiaweb.domain.Course;
 import org.springframework.context.annotation.Bean;
@@ -39,9 +38,6 @@ public class RedisConfig {
     public Course getCourse(){
         return new Course();
     }
-    @Bean
-    public ISqlInjector sqlInjector() {
-        return new LogicSqlInjector();
-    }
+
 }
 
