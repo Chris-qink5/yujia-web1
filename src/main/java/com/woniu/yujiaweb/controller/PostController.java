@@ -32,7 +32,7 @@ public class PostController {
     private PostService postService;
     //查询所有的帖子信息
     @GetMapping("allPost")
-    public Result getAllPost(PageVo pageVo){
+    public Result getAllPost(PageVO pageVo){
         IPage<Post> allPost = postService.getAllPost(pageVo);
         return new Result(true, StatusCode.OK,"查询帖子内容成功",allPost);
     }

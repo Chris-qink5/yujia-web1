@@ -60,10 +60,4 @@ public class User implements Serializable {
         @TableField(fill = FieldFill.INSERT_UPDATE)
         private Date gmtModifified;
 
-
-
-    @ApiModelProperty(value = "积分默认为0")
-    private Integer score;
-
-    private Integer attention;
 }

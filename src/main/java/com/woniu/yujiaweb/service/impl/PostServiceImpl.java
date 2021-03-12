@@ -41,7 +41,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 
     //分页查询所有的帖子信息
     @Override
-    public IPage<Post> getAllPost(PageVo pageVo) {
+    public IPage<Post> getAllPost(PageVO pageVo) {
 //        //查询数据的流程 先从redis缓存中去拿取数据  如果没有 再去数据库中查询
 //
 //        //判断查询出来的数据是否为空

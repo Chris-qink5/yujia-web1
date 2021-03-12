@@ -32,7 +32,7 @@ public class RoleController {
     private RoleService roleService;
     //获取所有的角色
     @GetMapping("findAllRole")
-    public Result findAllRole(PageVo pageVo){
+    public Result findAllRole(PageVO pageVo){
         IPage<Role> allRole = roleService.findAllRole(pageVo);
         return new Result(true, StatusCode.OK,"查询所有角色成功",allRole);
     }

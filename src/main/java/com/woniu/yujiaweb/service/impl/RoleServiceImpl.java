@@ -30,7 +30,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     //查询所有的角色信息
     @Override
-    public IPage<Role> findAllRole(PageVo pageVo) {
+    public IPage<Role> findAllRole(PageVO pageVo) {
         Page<Role> rolePage = new Page<>(pageVo.getCurrent(),pageVo.getSize());
         IPage<Role> allRole = roleMapper.selectPage(rolePage, null);
         return allRole;

@@ -10,7 +10,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
-import java.sql.Date;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -58,11 +57,6 @@ public class Course implements Serializable {
 
     private String coachName;
 
-    private String courseName;
-
-    private Date courseTime;
-
-    private Double courseMoney;
 
 
 }

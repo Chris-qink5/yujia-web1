@@ -1,9 +1,12 @@
 package com.woniu.yujiaweb.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.woniu.yujiaweb.domain.Permission;
 import com.woniu.yujiaweb.domain.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.woniu.yujiaweb.vo.CoachVo;
+import com.woniu.yujiaweb.vo.GymVo;
 import com.woniu.yujiaweb.vo.PageGymVo;
 import com.woniu.yujiaweb.vo.PageUserVo;
 
@@ -20,6 +23,7 @@ import java.util.List;
  * @since 2021-03-06
  */
 public interface UserService extends IService<User> {
+    public void saveUserAndRole(String uid, String rid);
     public List<Permission> findManue(String username);
     public List<Permission> findManue2(String username);
     public List<User>  findPlace();
@@ -47,7 +51,7 @@ public interface UserService extends IService<User> {
 
 
         //查询所有教练
-    Page<CoachVo> getAllcoach( CoachVo coachVo,QueryWrapper<CoachVo> queryWrapper);
+    Page<CoachVo> getAllcoach(CoachVo coachVo, QueryWrapper<CoachVo> queryWrapper);
 
     //查询所有学员
     Page<CoachVo> getAllstudent( CoachVo coachVo,QueryWrapper<CoachVo> queryWrapper);

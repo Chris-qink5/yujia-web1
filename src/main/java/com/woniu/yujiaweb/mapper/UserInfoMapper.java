@@ -24,8 +24,9 @@ public interface UserInfoMapper extends BaseMapper<UserInfo> {
             "on u.id=ui.uid " +
             "where u.username=#{username}")
     List<UserInfo> getUsersInfoByUsername(String username);
+
     @Update("update t_user_info ui " +
             "set ui.nickname=#{nickname},ui.bankCard=#{bankCard},ui.sex=#{sex},ui.secret=#{secret},ui.open=#{open}" +
             "where ui.username=#{username}")
     int updateUserInfoByUsername(String username);
-
+}

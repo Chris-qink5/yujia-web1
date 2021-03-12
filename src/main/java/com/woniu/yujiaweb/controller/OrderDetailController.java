@@ -6,7 +6,6 @@ import com.woniu.yujiaweb.dto.Result;
 import com.woniu.yujiaweb.dto.StatusCode;
 import com.woniu.yujiaweb.service.OrderDetailService;
 import com.woniu.yujiaweb.vo.OrderDetailVo;
-import com.woniu.yujiaweb.vo.PageVo;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
@@ -29,7 +28,7 @@ public class OrderDetailController {
     private OrderDetailService orderDetailService;
     @GetMapping("/findOrderDetailC")
     @ResponseBody
-    public Result findOrderDetail(String coachName){
+    public Result findOrderDetailC(String coachName){
         return new Result(true, StatusCode.OK,"查询订单成功",orderDetailService.findOrderDetailC(coachName));
     }
 

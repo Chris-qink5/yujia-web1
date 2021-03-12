@@ -2,37 +2,46 @@ package com.woniu.yujiaweb.controller;
 
 
 import com.alibaba.druid.support.spring.stat.annotation.Stat;
+import com.aliyuncs.exceptions.ClientException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.woniu.yujiaweb.domain.Permission;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.woniu.yujiaweb.domain.User;
+import com.woniu.yujiaweb.domain.UserInfo;
 import com.woniu.yujiaweb.dto.Result;
 import com.woniu.yujiaweb.dto.StatusCode;
+import com.woniu.yujiaweb.service.UserInfoService;
 import com.woniu.yujiaweb.service.UserService;
 import com.woniu.yujiaweb.service.impl.UserServiceImpl;
+import com.woniu.yujiaweb.util.AliyunSmsUtils;
 import com.woniu.yujiaweb.util.JWTUtil;
-import com.woniu.yujiaweb.vo.PageGymVo;
-import com.woniu.yujiaweb.vo.PageUserVo;
-import com.woniu.yujiaweb.vo.PageVo;
-import com.woniu.yujiaweb.vo.UserVO;
-import com.woniu.yujiaweb.vo.YuJiaVO;
+import com.woniu.yujiaweb.util.MailUtils;
+import com.woniu.yujiaweb.util.SaltUtil;
+import com.woniu.yujiaweb.vo.*;
+import com.woniu.yujiaweb.vo.PageVO;
 import io.swagger.annotations.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * <p>
@@ -49,92 +58,94 @@ public class UserController {
     private UserService userService;
 
     @Resource
-    private RedisTemplate<String,Object> redisTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
     @Resource
     private UserInfoService userInfoService;
-    @PostMapping ("/register")
+
+    @PostMapping("/register")
     //@ApiOperation用于描述接口方法，作用于方法上
-    @ApiOperation(value = "用户注册",notes = "<span style='color:red;'>用来用户注册的接口</span>")
-    public Result register(@RequestBody UserVO userVO){
+    @ApiOperation(value = "用户注册", notes = "<span style='color:red;'>用来用户注册的接口</span>")
+    public Result register(@RequestBody UserVO userVO) {
         //先查询数据库是否有数据
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("username",userVO.getUsername());
+        queryWrapper.eq("username", userVO.getUsername());
         User userDB = userService.getOne(queryWrapper);
         //如果没有数据
         if (ObjectUtils.isEmpty(userDB)) {
             //加密注册
-            userDB=new User();
+            userDB = new User();
             SaltUtil saltUtil = new SaltUtil(8);
             String salt = saltUtil.getSalt();
-            Md5Hash hash = new Md5Hash(userVO.getPassword(), salt,2048);
+            Md5Hash hash = new Md5Hash(userVO.getPassword(), salt, 2048);
             userDB.setUsername(userVO.getUsername());
             userDB.setPassword(hash.toHex());
             userDB.setSalt(salt);
             //创建时间
             userDB.setGmtCreate(new Date());
-            if(userVO.getContact().contains(".com")){
+            if (userVO.getContact().contains(".com")) {
                 //邮箱注册
                 String email = userVO.getContact();
                 userDB.setEmail(email);
-            }else {
+            } else {
                 //电话注册
                 String tel = userVO.getContact();
                 userDB.setTel(tel);
             }
             //前台跟后台验证码进行对比
-            if (userVO.getAuthCode().equals(redisTemplate.opsForValue().get("authCode"))){
+            if (userVO.getAuthCode().equals(redisTemplate.opsForValue().get("authCode"))) {
                 //往数据库里存数据t_user
                 userService.save(userDB);
-            }else {
-                return new Result(false, StatusCode.AUTHCODE,"验证码错误");
+            } else {
+                return new Result(false, StatusCode.AUTHCODE, "验证码错误");
             }
             //缓存里存注册的昵称、银行卡号、性别
-            redisTemplate.opsForValue().set("nickname",userVO.getNickname());
-            redisTemplate.opsForValue().set("bankCard",userVO.getBankCard());
-            redisTemplate.opsForValue().set("sex",userVO.getSex());
+            redisTemplate.opsForValue().set("nickname", userVO.getNickname());
+            redisTemplate.opsForValue().set("bankCard", userVO.getBankCard());
+            redisTemplate.opsForValue().set("sex", userVO.getSex());
             //往t_user_role里存数据(userVO.getRadio())
-            redisTemplate.opsForValue().set("radio",userVO.getRadio());
-            return new Result(true, StatusCode.OK,"注册成功");
-        }else {
-            return new Result(false, StatusCode.ACCOUNTEXISTS,"账户已存在");
+            redisTemplate.opsForValue().set("radio", userVO.getRadio());
+            return new Result(true, StatusCode.OK, "注册成功");
+        } else {
+            return new Result(false, StatusCode.ACCOUNTEXISTS, "账户已存在");
         }
     }
-    @PostMapping ("/login")
+
+    @PostMapping("/login")
     //@ApiOperation用于描述接口方法，作用于方法上
-    @ApiOperation(value = "用户登陆",notes = "<span style='color:red;'>用来登陆所有用户的接口</span>")
+    @ApiOperation(value = "用户登陆", notes = "<span style='color:red;'>用来登陆所有用户的接口</span>")
     //@ApiImplicitParams用于描述接口参数
     @ApiResponses({
-            @ApiResponse(code =20002,message = "密码错误"),
-            @ApiResponse(code=20003,message = "账户不存在")
+            @ApiResponse(code = 20002, message = "密码错误"),
+            @ApiResponse(code = 20003, message = "账户不存在")
     })
     @ApiImplicitParams({
             //dataType:参数类型
             //paramType:参数由哪里获取     path->从路径中获取，query->?传参，body->ajax请求
-            @ApiImplicitParam(name = "userVO",value = "用户名于密码组成的用户",dataType = "UserVO",example = "{username:'tom',password:'1234'}"),
+            @ApiImplicitParam(name = "userVO", value = "用户名于密码组成的用户", dataType = "UserVO", example = "{username:'tom',password:'1234'}"),
 
     })
-    public Result login(@RequestBody UserVO userVO){
+    public Result login(@RequestBody UserVO userVO) {
         System.out.println("进入login");
         UsernamePasswordToken token = new UsernamePasswordToken(userVO.getUsername(), userVO.getPassword());
         Subject subject = SecurityUtils.getSubject();
         subject.login(token);
         //先查询新注册时的角色id
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("username",userVO.getUsername());
+        queryWrapper.eq("username", userVO.getUsername());
         User userDB = userService.getOne(queryWrapper);
-        if(!ObjectUtils.isEmpty(userDB)){
+        if (!ObjectUtils.isEmpty(userDB)) {
             //保存缓存
-            redisTemplate.opsForValue().set("username",userVO.getUsername());
+            redisTemplate.opsForValue().set("username", userVO.getUsername());
             //数据不为空
             String radio = (String) redisTemplate.opsForValue().get("radio");
             //userDB.getId()可以得到uid
-            userService.saveUserAndRole(Integer.toString(userDB.getId()),radio);
+            userService.saveUserAndRole(Integer.toString(userDB.getId()), radio);
             //把注册时的昵称、银行卡号、性别存入t_user_info数据库中
             QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
             //从缓存中取出用户id
-            wrapper.eq("username",userVO.getUsername());
+            wrapper.eq("username", userVO.getUsername());
             UserInfo userInfo = userInfoService.getOne(wrapper);
-            if(ObjectUtils.isEmpty(userInfo)){
+            if (ObjectUtils.isEmpty(userInfo)) {
                 //从缓存中取出数据
                 String nickname = (String) redisTemplate.opsForValue().get("nickname");
                 String bankCard = (String) redisTemplate.opsForValue().get("bankCard");
@@ -152,88 +163,90 @@ public class UserController {
 //      创建jwt,并将通过验证的用户保存到后端session中
         HashMap<String, String> map = new HashMap<>();
 
-        map.put("username",userVO.getUsername());
+        map.put("username", userVO.getUsername());
         String jwtToken = JWTUtil.createToken(map);
         JWTUtil.getUsernames().add(userVO.getUsername());
         System.out.println(jwtToken);
         System.out.println("结束login");
 
-        return new Result(true, StatusCode.OK,"登陆成功",jwtToken);
+        return new Result(true, StatusCode.OK, "登陆成功", jwtToken);
     }
-    @PostMapping ("/getAuthCode")
+
+    @PostMapping("/getAuthCode")
     //@ApiOperation用于描述接口方法，作用于方法上
-    @ApiOperation(value = "获取验证码",notes = "<span style='color:red;'>用来登陆所有用户的接口</span>")
-    public Result getAuthCode(@RequestBody UserVO userVO){
+    @ApiOperation(value = "获取验证码", notes = "<span style='color:red;'>用来登陆所有用户的接口</span>")
+    public Result getAuthCode(@RequestBody UserVO userVO) {
         //先判断是手机还是邮箱
-        if(userVO.getContact().contains(".com")){
+        if (userVO.getContact().contains(".com")) {
             //邮箱注册
             try {
-                MailUtils.newcode="";
+                MailUtils.newcode = "";
                 MailUtils.setNewcode();
                 String code = MailUtils.getNewcode();
                 //验证码存入缓存
-                redisTemplate.opsForValue().set("authCode",code);
-                MailUtils.sendMail(userVO.getContact(),"验证码",code);
+                redisTemplate.opsForValue().set("authCode", code);
+                MailUtils.sendMail(userVO.getContact(), "验证码", code);
 
             } catch (MessagingException e) {
                 e.printStackTrace();
             }
-        }else{
+        } else {
             //手机注册
             try {
-                AliyunSmsUtils.newcode="";
+                AliyunSmsUtils.newcode = "";
                 AliyunSmsUtils.setNewcode();
                 String code = AliyunSmsUtils.getNewcode();
                 //验证码存入缓存
-                redisTemplate.opsForValue().set("authCode",code);
-                AliyunSmsUtils.sendSms(userVO.getContact(),code);
+                redisTemplate.opsForValue().set("authCode", code);
+                AliyunSmsUtils.sendSms(userVO.getContact(), code);
             } catch (ClientException e) {
                 e.printStackTrace();
             }
         }
-        return new Result(true,StatusCode.OK,"验证码发送成功");
+        return new Result(true, StatusCode.OK, "验证码发送成功");
     }
-    @PostMapping ("/getpassword")
+
+    @PostMapping("/getpassword")
     //@ApiOperation用于描述接口方法，作用于方法上
-    @ApiOperation(value = "找回密码",notes = "<span style='color:red;'>用来找回密码的接口</span>")
-    public Result getpassword(@RequestBody UserVO userVO){
+    @ApiOperation(value = "找回密码", notes = "<span style='color:red;'>用来找回密码的接口</span>")
+    public Result getpassword(@RequestBody UserVO userVO) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("username",userVO.getUsername());
+        queryWrapper.eq("username", userVO.getUsername());
         User userDB = userService.getOne(queryWrapper);
         //如果可以查到数据
         if (!ObjectUtils.isEmpty(userDB)) {
             //密码加密
-            userDB=new User();
+            userDB = new User();
             SaltUtil saltUtil = new SaltUtil(8);
             String salt = saltUtil.getSalt();
-            Md5Hash hash = new Md5Hash(userVO.getPassword(), salt,2048);
+            Md5Hash hash = new Md5Hash(userVO.getPassword(), salt, 2048);
             userDB.setPassword(hash.toHex());
             userDB.setSalt(salt);
             //修改时间
             userDB.setGmtModifified(new Date());
-            if(userVO.getContact().contains(".com")){
+            if (userVO.getContact().contains(".com")) {
                 //邮箱找回
                 try {
-                    MailUtils.newcode="";
+                    MailUtils.newcode = "";
                     MailUtils.setNewcode();
                     String code = MailUtils.getNewcode();
                     //验证码存入缓存
-                    redisTemplate.opsForValue().set("newAuthCode",code);
-                    MailUtils.sendMail(userVO.getContact(),"验证码",code);
+                    redisTemplate.opsForValue().set("newAuthCode", code);
+                    MailUtils.sendMail(userVO.getContact(), "验证码", code);
 
                 } catch (MessagingException e) {
                     e.printStackTrace();
                 }
                 userDB.setEmail(userVO.getContact());
-            }else {
+            } else {
                 //电话找回
                 try {
-                    AliyunSmsUtils.newcode="";
+                    AliyunSmsUtils.newcode = "";
                     AliyunSmsUtils.setNewcode();
                     String code = AliyunSmsUtils.getNewcode();
                     //验证码存入缓存
-                    redisTemplate.opsForValue().set("newAuthCode",code);
-                    AliyunSmsUtils.sendSms(userVO.getContact(),code);
+                    redisTemplate.opsForValue().set("newAuthCode", code);
+                    AliyunSmsUtils.sendSms(userVO.getContact(), code);
                 } catch (ClientException e) {
                     e.printStackTrace();
                 }
@@ -241,8 +254,8 @@ public class UserController {
             }
             //数据库修改数据
             UpdateWrapper<User> wrapper = new UpdateWrapper<>();
-            wrapper.eq("username",userVO.getUsername());
-            userService.update(userDB,wrapper);
+            wrapper.eq("username", userVO.getUsername());
+            userService.update(userDB, wrapper);
             //前台跟后台验证码进行对比
 //            System.out.println("前台验证码"+userVO.getAuthCode());
 //            System.out.println("后台验证码"+redisTemplate.opsForValue().get("newAuthCode"));
@@ -256,86 +269,92 @@ public class UserController {
 //                return new Result(false, StatusCode.AUTHCODE,"验证码错误");
 //            }
         }
-        return new Result(true, StatusCode.OK,"发送验证码成功，请注意查收");
+        return new Result(true, StatusCode.OK, "发送验证码成功，请注意查收");
 
     }
-    private  Integer gym;
-    boolean  b=true;
+
+    private Integer gym;
+    boolean b = true;
+
     //查寻平台教练教练
     @GetMapping("/showcoach")
-    public Result showcocach( CoachVo coachVo){
+    public Result showcocach(CoachVo coachVo) {
         QueryWrapper<CoachVo> QueryWrapper = new QueryWrapper<>();
-            QueryWrapper.eq("r.id",2);
-        if(StringUtils.hasLength(coachVo.getTel())){
+        QueryWrapper.eq("r.id", 2);
+        if (StringUtils.hasLength(coachVo.getTel())) {
             System.out.println("tel");
-            QueryWrapper.like("u.tel",coachVo.getTel());
+            QueryWrapper.like("u.tel", coachVo.getTel());
         }
-        if(StringUtils.hasLength(coachVo.getNickname())){
+        if (StringUtils.hasLength(coachVo.getNickname())) {
             System.out.println("nickname");
-            QueryWrapper.like("nickname",coachVo.getNickname());
+            QueryWrapper.like("nickname", coachVo.getNickname());
         }
-        if(!StringUtils.isEmpty(coachVo.getSex())){
+        if (!ObjectUtils.isEmpty(coachVo.getSex())) {
             System.out.println("sex");
-            QueryWrapper.eq("c.sex",coachVo.getSex());
+            QueryWrapper.eq("c.sex", coachVo.getSex());
         }
-      Page<CoachVo> allcoach = userService.getAllcoach(coachVo, QueryWrapper);
-        return new Result(true, StatusCode.OK,"查询成功",allcoach);
+        Page<CoachVo> allcoach = userService.getAllcoach(coachVo, QueryWrapper);
+        return new Result(true, StatusCode.OK, "查询成功", allcoach);
     }
+
     //查看学员
     @GetMapping("/showstudent")
-    public Result showstudent(CoachVo studentVo){
+    public Result showstudent(CoachVo studentVo) {
         QueryWrapper<CoachVo> QueryWrapper = new QueryWrapper<>();
-        QueryWrapper.eq("r.id",1);
-        if(!StringUtils.isEmpty(studentVo.getSex())){
-            QueryWrapper.eq("ui.sex",studentVo.getSex());
+        QueryWrapper.eq("r.id", 1);
+        if (!ObjectUtils.isEmpty(studentVo.getSex())) {
+            QueryWrapper.eq("ui.sex", studentVo.getSex());
         }
-        if(StringUtils.hasLength(studentVo.getTel())){
-            QueryWrapper.like("u.tel",studentVo.getTel());
+        if (StringUtils.hasLength(studentVo.getTel())) {
+            QueryWrapper.like("u.tel", studentVo.getTel());
         }
-        if(StringUtils.hasLength(studentVo.getNickname())){
-            QueryWrapper.like("nickname",studentVo.getNickname());
+        if (StringUtils.hasLength(studentVo.getNickname())) {
+            QueryWrapper.like("nickname", studentVo.getNickname());
         }
         Page<CoachVo> allstudent = userService.getAllstudent(studentVo, QueryWrapper);
-        return new Result(true, StatusCode.OK,"查询成功",allstudent);
+        return new Result(true, StatusCode.OK, "查询成功", allstudent);
     }
+
     //查询学员签约情况
     @GetMapping("/querystudent/{tel}")
-    public Result querystudent(@PathVariable String tel){
+    public Result querystudent(@PathVariable String tel) {
         //通过学员电话查询出签约教练id
-      List<Integer> coachIds= userService.querycoachBystudentTel(tel);
+        List<Integer> coachIds = userService.querycoachBystudentTel(tel);
         //集合保存教练信息
-        ArrayList<CoachVo> coachnames= new ArrayList<>();
-        coachIds.forEach(coachId->{
+        ArrayList<CoachVo> coachnames = new ArrayList<>();
+        coachIds.forEach(coachId -> {
             CoachVo coachname = userService.querycoachBycoachId(coachId);
             coachnames.add(coachname);
         });
-        return  new Result(true, StatusCode.OK,"查询学员签约教练信息成功",coachnames);
+        return new Result(true, StatusCode.OK, "查询学员签约教练信息成功", coachnames);
     }
+
     //查询教练签约情况
-   @GetMapping("/signc/{tel}")
-   public Result signcoach(@PathVariable String tel){
+    @GetMapping("/signc/{tel}")
+    public Result signcoach(@PathVariable String tel) {
         //通过电话查询出教练id
-       Integer coachid = userService.selectcoachid(tel);
-       //通过教练id查询出签约场馆id
-    List<Integer> gymIds=userService.querygymBycoachId(coachid);
-    //集合保存签约场馆信息
-       ArrayList<GymVo> gymnames= new ArrayList<>();
-            gymIds.forEach(gymId->{
-                //遍历查询场馆信息
-                GymVo gymname = userService.Querygym(gymId);
-                gymnames.add(gymname);
-            });
-       return  new Result(true, StatusCode.OK,"查询成功",gymnames);
-   }
-   //申请签约教练
+        Integer coachid = userService.selectcoachid(tel);
+        //通过教练id查询出签约场馆id
+        List<Integer> gymIds = userService.querygymBycoachId(coachid);
+        //集合保存签约场馆信息
+        ArrayList<GymVo> gymnames = new ArrayList<>();
+        gymIds.forEach(gymId -> {
+            //遍历查询场馆信息
+            GymVo gymname = userService.Querygym(gymId);
+            gymnames.add(gymname);
+        });
+        return new Result(true, StatusCode.OK, "查询成功", gymnames);
+    }
+
+    //申请签约教练
     @GetMapping("insertgym")
-    public Result insertgym(Integer gymid,String tel){
+    public Result insertgym(Integer gymid, String tel) {
         //通过电话查询出教练id
         Integer coachid1 = userService.selectcoachid(tel);
         //通过教练id查询出签约场馆id
-        List<Integer> gymIds=userService.querygymBycoachId(coachid1);
+        List<Integer> gymIds = userService.querygymBycoachId(coachid1);
         //签约的场馆不能再次签约
-        if(!ObjectUtils.isEmpty(gymIds)){
+        if (!ObjectUtils.isEmpty(gymIds)) {
             gymIds.forEach(gymid1 -> {
                 if (gymid1 == gymid) {
                     b = false;
@@ -343,30 +362,32 @@ public class UserController {
                     b = true;
                 }
             });
-        }else {
-            b=true;
+        } else {
+            b = true;
         }
-        if(b){
+        if (b) {
             Integer coachid = userService.selectcoachid(tel);
             userService.insertcoach(coachid, gymid);
-            return  new Result(false, StatusCode.ACCOUNTEXISTS,"教练签约成功");
+            return new Result(false, StatusCode.ACCOUNTEXISTS, "教练签约成功");
         }
-        return  new Result(true, StatusCode.OK,"不能重复签约");
+        return new Result(true, StatusCode.OK, "不能重复签约");
     }
-   //查询场馆签约信息
+
+    //查询场馆签约信息
     @PostMapping("/querygym/{tel}")
-    public Result querygym(@PathVariable String tel){
-            GymVo gymVos =userService.findgym(tel);
-            return new Result(true, StatusCode.OK,"查询场馆信息成功",gymVos);
+    public Result querygym(@PathVariable String tel) {
+        GymVo gymVos = userService.findgym(tel);
+        return new Result(true, StatusCode.OK, "查询场馆信息成功", gymVos);
     }
+
     //文件上传
     @PostMapping("/upload")
-    public Result upload(@RequestParam("file") MultipartFile file){
+    public Result upload(@RequestParam("file") MultipartFile file) {
         //文件上传
         //2、存放在本地文件系统中
-        String path="D:/vue-cli/gymproject/static/img/".replace("/",File.separator);
-            String paths="/static/img/";
-        File upload=new File(path);
+        String path = "D:/vue-cli/gymproject/static/img/".replace("/", File.separator);
+        String paths = "/static/img/";
+        File upload = new File(path);
         if (!upload.exists()) {
             upload.mkdirs();
         }
@@ -374,137 +395,148 @@ public class UserController {
         //避免文件同名，使用UUID+系统时间对文件名进行处理
         String uuid = UUID.randomUUID().toString().replace("-", "");
         long currentTimeMillis = System.currentTimeMillis();
-        String uploadFileName=uuid+currentTimeMillis+fileName;
+        String uploadFileName = uuid + currentTimeMillis + fileName;
         //执行上传操作
         try {
             //执行上传操作
-            file.transferTo(new File(path,uploadFileName));
-            System.out.println("上传成功"+uploadFileName);
-            return new Result(true, StatusCode.OK,"上传成功",paths+uploadFileName);
+            file.transferTo(new File(path, uploadFileName));
+            System.out.println("上传成功" + uploadFileName);
+            return new Result(true, StatusCode.OK, "上传成功", paths + uploadFileName);
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("上传失败");
-            return new Result(false, StatusCode.ERROR,"上传失败");
+            return new Result(false, StatusCode.ERROR, "上传失败");
         }
     }
+
     //修改场馆信息//通过教练id查询签约教练的个人信息
     @PostMapping("/updatagym")
-    public Result updatagym(@RequestBody GymVo gymVo )  {
+    public Result updatagym(@RequestBody GymVo gymVo) {
         userService.updateByTel(gymVo);
-        return new Result(true, StatusCode.OK,"修改成功");
+        return new Result(true, StatusCode.OK, "修改成功");
     }
+
     //查询签约教练的id
     @GetMapping("selectcoachid/{tel}")
-    public Result selectcoachid(@PathVariable String tel,CoachVo coachVo){
-         gym = userService.selectgymid(tel);
+    public Result selectcoachid(@PathVariable String tel, CoachVo coachVo) {
+        gym = userService.selectgymid(tel);
         QueryWrapper<CoachVo> QueryWrapper = new QueryWrapper<>();
-        QueryWrapper.eq("u.tel",tel);
+        QueryWrapper.eq("u.tel", tel);
         Page<CoachVo> allcoachs = userService.selectcoachinfo(coachVo, QueryWrapper);
-        return new Result(true, StatusCode.OK,"查询我的签约教练的个人信息成功",allcoachs);
+        return new Result(true, StatusCode.OK, "查询我的签约教练的个人信息成功", allcoachs);
     }
+
     //解约教练
     @PostMapping("deletecid/{tel}")
-    public Result querycid(@PathVariable String tel){
-        System.out.println(gym+"场馆id");
-      Integer coachid=  userService.selectcoachid(tel);
+    public Result querycid(@PathVariable String tel) {
+        System.out.println(gym + "场馆id");
+        Integer coachid = userService.selectcoachid(tel);
         //  根据教练id和场馆id解约教练
-      userService.deletecgymBycIDandgId(coachid,gym);
-        return new Result(true, StatusCode.OK,"解除签约成功");
+        userService.deletecgymBycIDandgId(coachid, gym);
+        return new Result(true, StatusCode.OK, "解除签约成功");
     }
+
     //通过场馆电话查询出签约教练，通过签约教练查询出场馆的学员
     @GetMapping("findmystudent/{tel}")
-    public Result findmystudent(CoachVo coachVo,@PathVariable String tel){
+    public Result findmystudent(CoachVo coachVo, @PathVariable String tel) {
         QueryWrapper<CoachVo> QueryWrapper = new QueryWrapper<>();
-        QueryWrapper.eq("u.tel",tel);
+        QueryWrapper.eq("u.tel", tel);
         Page<CoachVo> allmystudent = userService.selectStudentinfo(coachVo, QueryWrapper);
-        return new Result(true, StatusCode.OK,"修改成功",allmystudent);
+        return new Result(true, StatusCode.OK, "修改成功", allmystudent);
     }
+
     //通过场馆电话查询出课程信息
     @GetMapping("selectclass/{tel}")
-    public Result findclass(CoachVo coachVo,@PathVariable String tel){
+    public Result findclass(CoachVo coachVo, @PathVariable String tel) {
         QueryWrapper<CoachVo> QueryWrapper = new QueryWrapper<>();
-        QueryWrapper.eq("u.tel",tel);
+        QueryWrapper.eq("u.tel", tel);
         Page<CoachVo> allclass = userService.findclassinfo(coachVo, QueryWrapper);
-        return new Result(true, StatusCode.OK,"修改成功",allclass);
+        return new Result(true, StatusCode.OK, "修改成功", allclass);
     }
+
     //下架课程
     @GetMapping("classdel")
-    public Result deleteclass( CoachVo coachVo){
+    public Result deleteclass(CoachVo coachVo) {
         //通过教练电话查询他的id
-        Integer coachid=  userService.selectcoachid(coachVo.getTel());
+        Integer coachid = userService.selectcoachid(coachVo.getTel());
         //通过课程名字查询课程id
-      Integer classId=userService.queryclassIdByclassName(coachVo.getCourseName());
-      //通过教练id和课程id下架课程
-        userService.deleteclass(coachid,classId);
-        return new Result(true, StatusCode.OK,"下架成功");
+        Integer classId = userService.queryclassIdByclassName(coachVo.getCourseName());
+        //通过教练id和课程id下架课程
+        userService.deleteclass(coachid, classId);
+        return new Result(true, StatusCode.OK, "下架成功");
     }
+
     //@ApiOperation用于描述接口方法，作用于方法上
-    @ApiOperation(value = "查找一级列表",notes = "<span style='color:red;'>用来查找一级列表</span>")
+    @ApiOperation(value = "查找一级列表", notes = "<span style='color:red;'>用来查找一级列表</span>")
     //@ApiImplicitParams用于描述接口参数
     @ApiResponses({
-            @ApiResponse(code =20000,message = "一级列表查找成功"),
+            @ApiResponse(code = 20000, message = "一级列表查找成功"),
 
     })
     @ApiImplicitParams({
             //dataType:参数类型
             //paramType:参数由哪里获取     path->从路径中获取，query->?传参，body->ajax请求
-            @ApiImplicitParam(name = "userVO",value = "用户名于密码组成的用户",dataType = "UserVO",example = "{username:'tom',password:'xxx'}"),
+            @ApiImplicitParam(name = "userVO", value = "用户名于密码组成的用户", dataType = "UserVO", example = "{username:'tom',password:'xxx'}"),
 
     })
     @RequestMapping("findManue")
     @ResponseBody
-    public Result findManue(@RequestBody UserVO userVO){
-        System.out.println("进入find"+userVO.getUsername());
+    public Result findManue(@RequestBody UserVO userVO) {
+        System.out.println("进入find" + userVO.getUsername());
         List<Permission> rootManue = userService.findManue(userVO.getUsername());
-        return new Result(true, StatusCode.OK,"一级列表查找成功",rootManue);
+        return new Result(true, StatusCode.OK, "一级列表查找成功", rootManue);
 
     }
-    @ApiOperation(value = "查找二级列表",notes = "<span style='color:red;'>用来查找二级列表</span>")
+
+    @ApiOperation(value = "查找二级列表", notes = "<span style='color:red;'>用来查找二级列表</span>")
     //@ApiImplicitParams用于描述接口参数
     @ApiResponses({
-            @ApiResponse(code =20000,message = "二级列表查找成功"),
+            @ApiResponse(code = 20000, message = "二级列表查找成功"),
 
     })
     @ApiImplicitParams({
             //dataType:参数类型
             //paramType:参数由哪里获取     path->从路径中获取，query->?传参，body->ajax请求
-            @ApiImplicitParam(name = "userVO",value = "用户名于密码组成的用户",dataType = "UserVO",example = "{username:'tom',password:'xxx'}"),
+            @ApiImplicitParam(name = "userVO", value = "用户名于密码组成的用户", dataType = "UserVO", example = "{username:'tom',password:'xxx'}"),
 
     })
     @RequestMapping("findManue2")
     @ResponseBody
-    public Result findManue2(@RequestBody UserVO userVO){
-        System.out.println("进入find"+userVO.getUsername());
+    public Result findManue2(@RequestBody UserVO userVO) {
+        System.out.println("进入find" + userVO.getUsername());
         List<Permission> rootManue = userService.findManue2(userVO.getUsername());
-        return new Result(true, StatusCode.OK," ",rootManue);
+        return new Result(true, StatusCode.OK, " ", rootManue);
     }
 
     //查询关注我的教练的信息
     @GetMapping("attentiongym/{tel}")
-        public Result attentiongym(CoachVo coachVo,@PathVariable String tel){
+    public Result attentiongym(CoachVo coachVo, @PathVariable String tel) {
         QueryWrapper<CoachVo> QueryWrapper = new QueryWrapper<>();
         Integer selectgymid = userService.selectgymid(tel);
-        QueryWrapper.eq("cg.yogagym_id",selectgymid);
+        QueryWrapper.eq("cg.yogagym_id", selectgymid);
         Page<CoachVo> allattentiongym = userService.findattentiongym(coachVo, QueryWrapper);
-
-
-
-    @RequestMapping("attention/{id}")
-    @ResponseBody
-    public Result attention(@PathVariable Integer id,User user){
-        user.setAttention(1);
-        userService.update(user);
-        return new Result(true,StatusCode.OK,"关注成功");
-    }
-
-    @RequestMapping("deletedAttention/{id}")
-    @ResponseBody
-    public Result deletedAttention(@PathVariable Integer id,User user){
-        user.setAttention(0);
-        userService.update(user);
-        return new Result(true,StatusCode.OK,"取消关注成功");
+        return  new Result();
 
     }
+
+
+
+//    @RequestMapping("attention/{id}")
+//    @ResponseBody
+//    public Result attention(@PathVariable Integer id,User user){
+//        user.setAttention(1);
+//        userService.update(user);
+//        return new Result(true,StatusCode.OK,"关注成功");
+//    }
+
+//    @RequestMapping("deletedAttention/{id}")
+//    @ResponseBody
+//    public Result deletedAttention(@PathVariable Integer id,User user){
+//        user.setAttention(0);
+//        userService.update(user);
+//        return new Result(true,StatusCode.OK,"取消关注成功");
+//
+//    }
     @ApiOperation(value = "退出登陆",notes = "<span style='color:red;'>用来退出登陆</span>")
     //@ApiImplicitParams用于描述接口参数
     @ApiResponses({

@@ -87,9 +87,6 @@ public interface UserMapper extends BaseMapper<User> {
     @Select("SELECT u.* FROM t_user u INNER JOIN t_user_role ur ON u.`id`=ur.`uid` AND ur.`rid`=3")
     public List<User> findPlace();
 
-    @Insert("insert into t_user_role (uid,rid) values (#{uid},#{rid})")
-    void saveUserAndRole(String uid, String rid);
-
     @Select("SELECT u.* FROM t_user u INNER JOIN t_yujia_place yp ON u.`id`=yp.`pid` WHERE yp.`yid`=#{yid}")
     public List<User> findYPlace(int yid);
     //查询所有教练

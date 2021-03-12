@@ -49,42 +49,42 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Resource
     private RedisTemplate<String,Object> redisTemplate;
 
-    @Override
-    public Page<User> findByCondition(UserInfoVO userInfoVO) {
-        QueryWrapper<User> wrapper = new QueryWrapper<>();
-        if(StringUtils.hasLength(userInfoVO.getEmail())){
-            wrapper.like("email",userInfoVO.getEmail());
-        }
-        if(StringUtils.hasLength(userInfoVO.getScore())){
-            wrapper.like("score",userInfoVO.getScore());
-        }
-        if(StringUtils.hasLength(userInfoVO.getSex())){
-            wrapper.like("sex",userInfoVO.getSex());
-        }
-        if(StringUtils.hasLength(userInfoVO.getTel())){
-            wrapper.like("tel",userInfoVO.getTel());
-        }
-        if(StringUtils.hasLength(userInfoVO.getUsername())){
-            wrapper.like("username",userInfoVO.getUsername());
-        }
-        if(!ObjectUtils.isEmpty(userInfoVO.getMinLength())){
-            wrapper.ge("length",userInfoVO.getMinLength());
-        }
-        if(!ObjectUtils.isEmpty(userInfoVO.getMaxLength())){
-            wrapper.le("length",userInfoVO.getMaxLength());
-        }
+//    @Override
+//    public Page<User> findByCondition(UserInfoVO userInfoVO) {
+//        QueryWrapper<User> wrapper = new QueryWrapper<>();
+//        if(StringUtils.hasLength(userInfoVO.getEmail())){
+//            wrapper.like("email",userInfoVO.getEmail());
+//        }
+//        if(StringUtils.hasLength(userInfoVO.getScore())){
+//            wrapper.like("score",userInfoVO.getScore());
+//        }
+//        if(StringUtils.hasLength(userInfoVO.getSex())){
+//            wrapper.like("sex",userInfoVO.getSex());
+//        }
+//        if(StringUtils.hasLength(userInfoVO.getTel())){
+//            wrapper.like("tel",userInfoVO.getTel());
+//        }
+//        if(StringUtils.hasLength(userInfoVO.getUsername())){
+//            wrapper.like("username",userInfoVO.getUsername());
+//        }
+//        if(!ObjectUtils.isEmpty(userInfoVO.getMinLength())){
+//            wrapper.ge("length",userInfoVO.getMinLength());
+//        }
+//        if(!ObjectUtils.isEmpty(userInfoVO.getMaxLength())){
+//            wrapper.le("length",userInfoVO.getMaxLength());
+//        }
 
+//
+//        Page<User> filmPage = new Page<>(userInfoVO.getCurrent(), userInfoVO.getSize());
+//
+//
+//        return (Page<User>) userMapper.selectPage(filmPage, wrapper);
+//    }
 
-        Page<User> filmPage = new Page<>(userInfoVO.getCurrent(), userInfoVO.getSize());
-
-
-        return (Page<User>) userMapper.selectPage(filmPage, wrapper);
-    }
-
-    @Override
-    public void saveUserAndRole(String uid, String rid) {
-        userMapper.saveUserAndRole(uid,rid);
-    }
+//    @Override
+//    public void saveUserAndRole(String uid, String rid) {
+//        userMapper.saveUserAndRole(uid,rid);
+//    }
 
     @Override
     public void update(User user) {

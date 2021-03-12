@@ -52,13 +52,6 @@ public class OrderDetail implements Serializable {
 
     private Integer uId;
 
-    private String username;
-
-    private String coachName;
-
-    private String courseName;
-
-    private Date courseTime;
 
 
 

@@ -20,6 +20,7 @@ public interface OrderDetailService extends IService<OrderDetail> {
 
     List<OrderDetail> findOrderDetailC(String coachName);
 
+    List<OrderDetail> findOrderDetail(String username);
 
     //查询所有的订单信息
     public Page<OrderDetailVo> queryAllDetail(OrderDetailVo orderDetailVo);

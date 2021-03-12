@@ -25,6 +25,10 @@ public interface OrderDetailMapper extends BaseMapper<OrderDetail> {
             "from t_order_detail od " +
             "where od.coach_name=#{coachName}")
     List<OrderDetail> findOrderDetailC(String coachName);
+    @Select("select  od.* " +
+            "from t_order_detail od " +
+            "where od.username=#{username}")
+    List<OrderDetail> findOrderDetail(String username);
 
  @Select("SELECT uo.id,uo.uname,uo.cname,c.course_name,c.course_money,od.create_time,od.status FROM " +
             "t_user_order AS uo " +
