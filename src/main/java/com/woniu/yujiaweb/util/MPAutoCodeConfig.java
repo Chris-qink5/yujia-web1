@@ -43,7 +43,7 @@ public class MPAutoCodeConfig {
         dsc.setUrl("jdbc:mysql:///stage3pro?characterEncoding=utf-8");
         dsc.setDriverName("com.mysql.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("1044");
+        dsc.setPassword("");
         dsc.setDbType(DbType.MYSQL);                          //指定数据库类型
 
         autoGenerator.setDataSource(dsc);                     //添加数据源配置
@@ -62,7 +62,11 @@ public class MPAutoCodeConfig {
         // https://baomidou.com/config/generator-config.html#%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E9%85%8D%E7%BD%AE
         StrategyConfig strategy = new StrategyConfig();
         // 设置要生成的实体类对应映射的表名
-        strategy.setInclude("t_user");
+<<<<<<<<< Temporary merge branch 1
+        strategy.setInclude("t_yujia_place");
+=========
+        strategy.setInclude("t_user_wallet");
+>>>>>>>>> Temporary merge branch 2
 
         strategy.setTablePrefix("t_");                       //去除表名前缀
 
@@ -75,12 +79,12 @@ public class MPAutoCodeConfig {
         strategy.setEntityLombokModel(true);                 //自动lombok；
         strategy.setLogicDeleteFieldName("deleted");         //设置使用逻辑删除策略的属性名
 //         自动填充配置 TableFill
-        TableFill gmtCreate = new TableFill("gmt_create", FieldFill.INSERT);
-        TableFill gmtModified = new TableFill("gmt_modifified", FieldFill.INSERT_UPDATE);
-        ArrayList<com.baomidou.mybatisplus.generator.config.po.TableFill> tableFills = new ArrayList<>();
-        tableFills.add(gmtCreate);
-        tableFills.add(gmtModified);
-        strategy.setTableFillList(tableFills);
+//        TableFill gmtCreate = new TableFill("gmt_create", FieldFill.INSERT);
+//        TableFill gmtModified = new TableFill("gmt_modifified", FieldFill.INSERT_UPDATE);
+//        ArrayList<com.baomidou.mybatisplus.generator.config.po.TableFill> tableFills = new ArrayList<>();
+//        tableFills.add(gmtCreate);
+//        tableFills.add(gmtModified);
+//        strategy.setTableFillList(tableFills);
 
 //        strategy.setVersionFieldName("version");             // 乐观锁
 //        strategy.setRestControllerStyle(true);               //生成 @RestController 控制器

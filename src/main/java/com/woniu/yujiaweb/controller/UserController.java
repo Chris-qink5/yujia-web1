@@ -5,7 +5,6 @@ import com.aliyuncs.exceptions.ClientException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.woniu.yujiaweb.domain.Permission;
-import com.woniu.yujiaweb.domain.Permission;
 import com.woniu.yujiaweb.domain.User;
 import com.woniu.yujiaweb.domain.UserInfo;
 import com.woniu.yujiaweb.dto.Result;
@@ -36,12 +35,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -161,12 +163,9 @@ public class UserController {
         }
 //      创建jwt,并将通过验证的用户保存到后端session中
         HashMap<String, String> map = new HashMap<>();
-
         map.put("username",userVO.getUsername());
         String jwtToken = JWTUtil.createToken(map);
         JWTUtil.getUsernames().add(userVO.getUsername());
-        System.out.println("结束login");
-
         return new Result(true, StatusCode.OK,"登陆成功",jwtToken);
     }
     @PostMapping ("/getAuthCode")
@@ -299,12 +298,6 @@ public class UserController {
             //paramType:参数由哪里获取     path->从路径中获取，query->?传参，body->ajax请求
             @ApiImplicitParam(name = "userVO",value = "用户名于密码组成的用户",dataType = "UserVO",example = "{username:'tom',password:'xxx'}"),
 
-    @RequestMapping("findManue")
-    @ResponseBody
-    public Result findManue(@RequestBody UserVO userVO){
-        System.out.println("进入find"+userVO.getUsername());
-        List<Permission> rootManue = userService.findManue(userVO.getUsername());
-        return new Result(true, StatusCode.OK,"查询一级菜单成功 ",rootManue);
     })
     @RequestMapping("findManue2")
     @ResponseBody
@@ -314,26 +307,6 @@ public class UserController {
         return new Result(true, StatusCode.OK," ",rootManue);
 
     }
-    @ApiOperation(value = "退出登陆",notes = "<span style='color:red;'>用来退出登陆</span>")
-    //@ApiImplicitParams用于描述接口参数
-    @ApiResponses({
-            @ApiResponse(code =20000,message = "注销成功"),
-
-    })
-    @ApiImplicitParams({
-            //dataType:参数类型
-            //paramType:参数由哪里获取     path->从路径中获取，query->?传参，body->ajax请求
-            @ApiImplicitParam(name = "userVO",value = "用户名于密码组成的用户",dataType = "UserVO",example = "{username:'tom',password:'xxx'}"),
-
-    })
-    @PostMapping("/logout")
-    public Result show(@RequestBody UserVO userVO){
-        System.out.println("进入logout");
-       redisTemplate.delete(userVO.getUsername());
-        return new Result(true, StatusCode.OK,"注销成功");
-
-    }
-
     @ApiOperation(value = "退出登陆",notes = "<span style='color:red;'>用来退出登陆</span>")
     //@ApiImplicitParams用于描述接口参数
     @ApiResponses({
@@ -362,14 +335,7 @@ public class UserController {
         List<User> yPlace = userService.findYPlace(yuJiaVO.getYid());
         return new Result(true, StatusCode.OK,"查询发起众筹的场馆成功",yPlace);
     }
-    @RequestMapping("findManue2")
-    @ResponseBody
-    public Result findManue2(@RequestBody UserVO userVO){
-        System.out.println("进入find"+userVO.getUsername());
-        List<Permission> rootManue = userService.findManue2(userVO.getUsername());
-        return new Result(true, StatusCode.OK," 查询二级菜单成功",rootManue);
 
-    }
 
     @PostMapping("/logout")
     public Result show(@RequestBody UserVO userVO){
