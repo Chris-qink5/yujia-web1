@@ -7,11 +7,16 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql:///stage3pro
+    url: jdbc:mysql:///stage3pro?characterEncoding=UTF-8
     username: root
-    password: 1044
+    password:
 server:
   port: 8888
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #配置逻辑删除的配置
+  global-config:
+    db-config:
+      logic-not-delete-value: 0
+      logic-delete-value: 1

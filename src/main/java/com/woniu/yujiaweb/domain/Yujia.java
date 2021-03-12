@@ -35,6 +35,7 @@ public class Yujia implements Serializable {
     private String courseName;
 
     private String sponsor;
+    private Integer sponsorId;
 
     private Integer joinerNum;
 

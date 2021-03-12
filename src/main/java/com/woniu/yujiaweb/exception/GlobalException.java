@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.io.IOException;
 
-@RestControllerAdvice
 public class GlobalException {
     @ExceptionHandler(ArithmeticException.class)
     public Result handlerArithemticException(){

@@ -6,5 +6,6 @@ import lombok.Data;
 public class UserVO {
     private String username;
     private String password;
+    private Boolean checked;
 
 }

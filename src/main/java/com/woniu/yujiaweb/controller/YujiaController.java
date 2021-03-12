@@ -8,15 +8,15 @@ import com.woniu.yujiaweb.domain.*;
 import com.woniu.yujiaweb.dto.Result;
 import com.woniu.yujiaweb.dto.StatusCode;
 import com.woniu.yujiaweb.service.*;
+import com.woniu.yujiaweb.vo.AYujiaVo;
 import com.woniu.yujiaweb.vo.LauchVO;
 import com.woniu.yujiaweb.vo.MyYuJiaVO;
-import com.woniu.yujiaweb.vo.PicVO;
 import com.woniu.yujiaweb.vo.YuJiaVO;
 import io.swagger.annotations.*;
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -26,6 +26,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+import com.woniu.yujiaweb.domain.Yujia;
+
+import com.woniu.yujiaweb.service.YujiaService;
+
 
 /**
  * <p>
@@ -35,7 +39,7 @@ import java.util.UUID;
  * @author qk
  * @since 2021-03-08
  */
-@Controller
+@RestController
 @RequestMapping("/yujia")
 public class YujiaController {
     @Resource
@@ -167,15 +171,15 @@ public class YujiaController {
     }
     @PostMapping("/upload")
     @ResponseBody
-    public Result upload(@RequestParam("file") MultipartFile file,@RequestParam("cname") String cname){
+    public Result upload(@RequestParam("file") MultipartFile file,@RequestParam("cname") String cname) {
         QueryWrapper<Yujia> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("course_name",cname);
+        queryWrapper.eq("course_name", cname);
         Yujia one = yujiaService.getOne(queryWrapper);
-        int yid =one.getId();
+        int yid = one.getId();
         //文件上传
         //2、存放在本地文件系统中
-        String path="E:/nodejs/vue-cli/shirojwt/static/picture".replace("/", File.separator);
-        File upload=new File(path);
+        String path = "E:/nodejs/vue-cli/shirojwt/static/picture".replace("/", File.separator);
+        File upload = new File(path);
         if (!upload.exists()) {
             upload.mkdirs();
         }
@@ -183,24 +187,63 @@ public class YujiaController {
         //避免文件同名，使用UUID+系统时间对文件名进行处理
         String uuid = UUID.randomUUID().toString().replace("-", "");
         long currentTimeMillis = System.currentTimeMillis();
-        String uploadFileName=uuid+currentTimeMillis+fileName;
+        String uploadFileName = uuid + currentTimeMillis + fileName;
         //执行上传操作
         try {
             //执行上传操作
-            file.transferTo(new File(path,uploadFileName));
-            System.out.println("上传成功"+uploadFileName);
-            String picturePath="/static/picture/"+uploadFileName;
+            file.transferTo(new File(path, uploadFileName));
+            System.out.println("上传成功" + uploadFileName);
+            String picturePath = "/static/picture/" + uploadFileName;
             YujiaDetail t = new YujiaDetail();
             t.setPicture(picturePath);
             UpdateWrapper<YujiaDetail> wrapper = new UpdateWrapper<>();
-            wrapper.eq("yid",yid);
+            wrapper.eq("yid", yid);
             yujiaDetailService.update(t, wrapper);
-            return new Result(true, StatusCode.OK,"上传成功",path+uploadFileName);
+            return new Result(true, StatusCode.OK, "上传成功", path + uploadFileName);
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("上传失败");
-            return new Result(false, StatusCode.ERROR,"上传失败");
+            return new Result(false, StatusCode.ERROR, "上传失败");
         }
+    }
+
+
+    //管理员对众筹项目进行管理
+    //查询所有的瑜伽项目
+    @GetMapping("queryAllCF")
+    public Result findAllCj(AYujiaVo yujiaVo) {
+        Page<AYujiaVo> allCJ = yujiaService.findAllCJ(yujiaVo);
+        return new Result(true, StatusCode.OK, "成功查询所有的众筹项目", allCJ);
+    }
+
+    //对所选中的项目进行修改
+    @PostMapping("update")
+    public Result updateCF(@RequestBody AYujiaVo yujiaVo) {
+        boolean b = yujiaService.updateCj(yujiaVo);
+        if (b) {
+            return new Result(true, StatusCode.OK, "修改项目信息成功");
+        }
+        return new Result(false, StatusCode.ERROR, "修改项目信息失败");
+    }
+
+    //对所选中的项目进行删除
+    @PostMapping("delCF/{id}")
+    public Result delCF(@PathVariable Integer id) {
+        boolean b = yujiaService.delCJ(id);
+        if (b) {
+            return new Result(true, StatusCode.OK, "成功删除订单");
+        }
+        return new Result(false, StatusCode.ERROR, "删除订单失败");
+    }
+
+    //对未审核的众筹项目进行审核 将0变为1
+    @PostMapping("aud/{id}")
+    public Result aud(@PathVariable Integer id) {
+        boolean aud = yujiaService.aud(id);
+        if (aud) {
+            return new Result(true, StatusCode.OK, "审核成功");
+        }
+        return new Result(false, StatusCode.ERROR, "审核失败");
     }
 }
 

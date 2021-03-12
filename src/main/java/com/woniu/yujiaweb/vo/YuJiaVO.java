@@ -6,4 +6,5 @@ import lombok.Data;
 public class YuJiaVO {
     private Integer yid;
     private String uname;
+
 }
