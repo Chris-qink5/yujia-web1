@@ -1,6 +1,7 @@
 package com.woniu.yujiaweb.util;
 
 import java.util.Properties;
+import java.util.Random;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -46,9 +47,34 @@ public class MailUtils {
 		// 3.创建 Transport用于将邮件发送
 		Transport.send(message);
 	}
+	// 以下为测试代码，随机生成验证码
+	public static String newcode="";
+
+	public static String getNewcode() {
+		return newcode;
+	}
+
+	public static void setNewcode() {
+		Random ran=new Random();
+
+		for(int i=1;i<=4;i++){
+			switch (ran.nextInt(3)) {
+				case 0://97~122
+					newcode+=(char)(ran.nextInt(122-97+1)+97)+"";
+					break;
+				case 1://65~90
+					newcode+=(char)(ran.nextInt(90-65+1)+65)+"";
+					break;
+				case 2://48~57
+					newcode+=(char)(ran.nextInt(57-48+1)+48)+"";
+					break;
+			}
+		}
+
+	}
 	public static void main(String[] args) {
 		try {
-			MailUtils.sendMail("1348417673@qq.com", "学java", "走上人生巅峰");
+			MailUtils.sendMail("1348417673@qq.com", "验证信息", "310735");
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

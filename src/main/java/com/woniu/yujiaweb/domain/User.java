@@ -44,7 +44,7 @@ public class User implements Serializable {
         @ApiModelProperty(value = "密码加密")
         private String salt;
 
-        @ApiModelProperty(value = "电话号码不能为null，注册需要使用电话号码")
+        @ApiModelProperty(value = "电话号码可以为null，注册需要使用电话号码")
         private String tel;
 
         @ApiModelProperty(value = "邮箱可以为null")

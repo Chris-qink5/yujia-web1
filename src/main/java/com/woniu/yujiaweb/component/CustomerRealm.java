@@ -35,7 +35,7 @@ public class CustomerRealm extends AuthorizingRealm {
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        //进入认证
+        //进入认证,跟数据库数据进行对比（查询数据库）
         System.out.println("进入认证");
         String username = (String)authenticationToken.getPrincipal();
         QueryWrapper<User> wrapper = new QueryWrapper<>();

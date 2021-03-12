@@ -3,6 +3,10 @@ package com.woniu.yujiaweb.mapper;
 import com.woniu.yujiaweb.domain.Permission;
 import com.woniu.yujiaweb.domain.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -29,6 +33,8 @@ public interface UserMapper extends BaseMapper<User> {
             "            INNER JOIN `t_user` u ON ur.`uid`=u.`id` WHERE u.`id`=#{uid} AND p.`perssion_level`=1")
     public List<Permission> findManue2(int uid);
 
+    @Insert("insert into t_user_role (uid,rid) values (#{uid},#{rid})")
+    void saveUserAndRole(String uid,String rid);
     @Select("SELECT u.* FROM t_user u INNER JOIN t_user_role ur ON u.`id`=ur.`uid` AND ur.`rid`=3")
     public List<User> findPlace();
 

@@ -19,7 +19,7 @@ import java.util.List;
  *  服务实现类
  * </p>
  *
- * @author qk
+ * @author yym
  * @since 2021-03-06
  */
 @Service
@@ -59,9 +59,58 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         List<Permission> rootManuelist = removeDuplicate(rootManue);
         System.out.println(rootManue);
         return rootManuelist;
+    @Override
+    public List<Permission> findManue(String username) {
+        System.out.println(username+"进入服务层");
+        int id =(int) redisTemplate.opsForValue().get(username);
+
+        List<Permission> permissions = userMapper.findManue(id);
+        ArrayList<Permission> rootManue = new ArrayList<>();
+        permissions.forEach(permission -> {
+
+            rootManue.add(permission);
+
+        });
+        List<Permission> rootManuelist = removeDuplicate(rootManue);
+        System.out.println(rootManue);
+        return rootManuelist;
+
+    }
+    public List<Permission> findManue2(String username) {
+        System.out.println(username+"进入服务层");
+        int id =(int) redisTemplate.opsForValue().get(username);
+
+        List<Permission> permissions = userMapper.findManue2(id);
+        ArrayList<Permission> rootManue = new ArrayList<>();
+        permissions.forEach(permission -> {
+
+            rootManue.add(permission);
+
+        });
+        List<Permission> rootManuelist = removeDuplicate(rootManue);
+        System.out.println(rootManue);
+        return rootManuelist;
 
     }
 
+    @Override
+    public void saveUserAndRole(String uid, String rid) {
+        //向数据库保存数据
+        userMapper.saveUserAndRole(uid,rid);
+    }
+
+    /**
+     * 去重
+     */
+    public  List<Permission> removeDuplicate(List<Permission> list){
+        List<Permission> listTemp = new ArrayList<Permission>();
+        for(int i=0;i<list.size();i++){
+            if(!listTemp.contains(list.get(i))){
+                listTemp.add(list.get(i));
+            }
+        }
+        return listTemp;
+    }
     @Override
     public List<User> findPlace() {
         List<User> place = userMapper.findPlace();
