@@ -44,6 +44,7 @@ public class ShiroConfig {
         LinkedHashMap<String,String> map=new LinkedHashMap<>();
         //设置白名单
         map.put("/user/login","anon");
+
         map.put("/**","jwt");
         //设置黑名单
 

@@ -29,7 +29,7 @@ public class MPAutoCodeConfig {
         gc.setAuthor("qk");                            //设置项目作者
         gc.setOpen(false);                                     //代码生成后是否打开文件夹
 
-        gc.setFileOverride(true);                             //是否覆盖
+        gc.setFileOverride(false);                             //是否覆盖
 
         gc.setServiceName("%sService");                        //去Service的I前缀
         gc.setIdType(IdType.ID_WORKER);                        //自定义主键生成策略
@@ -62,7 +62,7 @@ public class MPAutoCodeConfig {
         // https://baomidou.com/config/generator-config.html#%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E9%85%8D%E7%BD%AE
         StrategyConfig strategy = new StrategyConfig();
         // 设置要生成的实体类对应映射的表名
-        strategy.setInclude("t_user");
+        strategy.setInclude("t_yujia_place");
 
         strategy.setTablePrefix("t_");                       //去除表名前缀
 
