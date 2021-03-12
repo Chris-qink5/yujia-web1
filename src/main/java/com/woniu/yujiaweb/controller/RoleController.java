@@ -6,12 +6,9 @@ import com.woniu.yujiaweb.domain.Role;
 import com.woniu.yujiaweb.dto.Result;
 import com.woniu.yujiaweb.dto.StatusCode;
 import com.woniu.yujiaweb.service.RoleService;
-import com.woniu.yujiaweb.vo.PageVo;
+import com.woniu.yujiaweb.vo.PageVO;
 import com.woniu.yujiaweb.vo.RoleVo;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.web.bind.annotation.*;
-
-import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -32,7 +29,7 @@ public class RoleController {
     private RoleService roleService;
     //获取所有的角色
     @GetMapping("findAllRole")
-    public Result findAllRole(PageVo pageVo){
+    public Result findAllRole(PageVO pageVo){
         IPage<Role> allRole = roleService.findAllRole(pageVo);
         return new Result(true, StatusCode.OK,"查询所有角色成功",allRole);
     }

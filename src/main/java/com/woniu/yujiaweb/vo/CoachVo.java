@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class CoachVo extends PageVo{
+public class CoachVo extends PageVO{
      private String tel;
      private  String idCard;
      private  double score;

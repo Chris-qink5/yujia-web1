@@ -74,6 +74,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
 //        ValueOperations<String, Object> stringObjectValueOperations = redisTemplate.opsForValue();
         HashSet<String> usernames = JWTUtil.getUsernames();
         for(String s:usernames){
+            System.out.println(s);
             if(s.equals(usernameJwt)){
                 isExist++;
             }

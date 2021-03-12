@@ -4,9 +4,8 @@ import lombok.Data;
 import org.apache.catalina.User;
 
 import java.util.List;
-
 @Data
-public class PageVo {
+public class PageVO {
     private Integer current;
     private Integer size;
     private Integer pages;

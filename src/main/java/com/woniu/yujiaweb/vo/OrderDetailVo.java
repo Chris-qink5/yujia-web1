@@ -4,7 +4,7 @@ import lombok.Data;
 
 import java.util.Date;
 @Data
-public class OrderDetailVo extends PageVo{
+public class OrderDetailVo extends PageVO {
     private Integer id;
     private String uname;
     private String cname;

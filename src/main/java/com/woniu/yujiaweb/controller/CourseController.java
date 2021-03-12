@@ -3,7 +3,6 @@ package com.woniu.yujiaweb.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.woniu.yujiaweb.domain.Course;
 import com.woniu.yujiaweb.domain.OrderDetail;
@@ -11,7 +10,7 @@ import com.woniu.yujiaweb.dto.Result;
 import com.woniu.yujiaweb.dto.StatusCode;
 import com.woniu.yujiaweb.service.CourseService;
 import com.woniu.yujiaweb.service.OrderDetailService;
-import com.woniu.yujiaweb.vo.PageVo;
+import com.woniu.yujiaweb.vo.PageVO;
 import com.woniu.yujiaweb.vo.RowVO;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,7 +44,7 @@ public class CourseController {
     private OrderDetailService orderDetailService;
     @GetMapping("/findCoachs")
     @ResponseBody
-    private Result findCoachs(PageVo pageVO){
+    private Result findCoachs(PageVO pageVO){
         Page<Course> coursePage = new Page<>(pageVO.getCurrent(),pageVO.getSize());
         IPage<Course> page = courseService.page(coursePage,null);
         return new Result(true, StatusCode.OK,"查询所有教练",page);

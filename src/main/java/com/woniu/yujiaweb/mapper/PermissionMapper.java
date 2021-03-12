@@ -2,7 +2,7 @@ package com.woniu.yujiaweb.mapper;
 
 import com.woniu.yujiaweb.domain.Permission;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import net.bytebuddy.description.field.FieldDescription;
+//import net.bytebuddy.description.field.FieldDescription;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;

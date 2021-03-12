@@ -3,36 +3,24 @@ package com.woniu.yujiaweb.service.impl;
 import com.woniu.yujiaweb.domain.Permission;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.woniu.yujiaweb.domain.User;
 import com.woniu.yujiaweb.mapper.UserMapper;
 import com.woniu.yujiaweb.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.woniu.yujiaweb.vo.PageGymVo;
 import com.woniu.yujiaweb.vo.PageUserVo;
-import org.apache.shiro.SecurityUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import com.woniu.yujiaweb.vo.CoachVo;
 import com.woniu.yujiaweb.vo.GymVo;
-import com.woniu.yujiaweb.vo.PageVo;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
-import javax.xml.bind.annotation.XmlType;
 import java.util.List;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * <p>

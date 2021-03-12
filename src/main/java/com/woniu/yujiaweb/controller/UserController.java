@@ -2,6 +2,7 @@ package com.woniu.yujiaweb.controller;
 
 
 import com.alibaba.druid.support.spring.stat.annotation.Stat;
+import com.aliyuncs.exceptions.ClientException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.woniu.yujiaweb.domain.Permission;
@@ -21,14 +22,11 @@ import com.woniu.yujiaweb.mapper.UserMapper;
 import com.woniu.yujiaweb.service.UserInfoService;
 import com.woniu.yujiaweb.service.UserService;
 import com.woniu.yujiaweb.service.impl.UserServiceImpl;
+import com.woniu.yujiaweb.util.AliyunSmsUtils;
 import com.woniu.yujiaweb.util.JWTUtil;
 import com.woniu.yujiaweb.util.MailUtils;
 import com.woniu.yujiaweb.util.SaltUtil;
-import com.woniu.yujiaweb.vo.PageGymVo;
-import com.woniu.yujiaweb.vo.PageUserVo;
-import com.woniu.yujiaweb.vo.PageVo;
-import com.woniu.yujiaweb.vo.UserVO;
-import com.woniu.yujiaweb.vo.YuJiaVO;
+import com.woniu.yujiaweb.vo.*;
 import io.swagger.annotations.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -81,14 +79,9 @@ import java.util.*;
 @RequestMapping("/user")
 public class UserController {
     @Resource
-    @Resource
-    private AlipayService alipayService;
-    @Resource
     private UserService userService;
     @Autowired
     private RedisTemplate<String,Object> redisTemplate;
-    @Resource
-    private UserService userService;
     @Resource
     private UserInfoService userInfoService;
     @PostMapping ("/register")
@@ -297,7 +290,7 @@ public class UserController {
 //            }
         }
         return new Result(true, StatusCode.OK,"发送验证码成功，请注意查收");
-        return new Result(true, StatusCode.OK, "登陆成功", jwtToken);
+
     }
     private  Integer gym;
     boolean  b=true;
@@ -570,12 +563,7 @@ public class UserController {
         });
         return new Result(true, StatusCode.OK,"查询场馆成功",places);
     }
-    //实现支付功能
-    @PostMapping("alipay")
-    public Result toAlipay(@RequestBody AlipayBean alipayBean) throws IOException {
-        String result = alipayService.toAlipay(alipayBean);
-        return new Result(true, StatusCode.OK,"修改成功",result);
-    }
+
     @PostMapping("/findYPlace")
     @ResponseBody
     public Result findYPlace(@RequestBody YuJiaVO yuJiaVO){
@@ -647,12 +635,6 @@ public class UserController {
         return new Result(true, StatusCode.OK,"查询所有学员信息成功",allAdmin);
     }
 
-    @PostMapping("/logout")
-    public Result show(@RequestBody UserVO userVO){
-        System.out.println("进入logout");
-        redisTemplate.delete(userVO.getUsername());
-        return new Result(true, StatusCode.OK,"注销成功");
 
-    }
 }
 

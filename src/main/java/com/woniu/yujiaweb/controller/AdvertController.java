@@ -6,11 +6,8 @@ import com.woniu.yujiaweb.domain.Advert;
 import com.woniu.yujiaweb.dto.Result;
 import com.woniu.yujiaweb.dto.StatusCode;
 import com.woniu.yujiaweb.service.AdvertService;
-import com.woniu.yujiaweb.vo.PageVo;
-import org.apache.ibatis.executor.ResultExtractor;
+import com.woniu.yujiaweb.vo.PageVO;
 import org.springframework.web.bind.annotation.*;
-
-import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
 
@@ -30,7 +27,7 @@ public class AdvertController {
     private AdvertService advertService;
     //查询所有的广告信息
     @GetMapping("allAdvert")
-    public Result getAllAdvert(PageVo pageVo){
+    public Result getAllAdvert(PageVO pageVo){
         IPage<Advert> allAdver = advertService.getAllAdver(pageVo);
         return new Result(true, StatusCode.OK,"查询广告内容成功",allAdver);
     }
