@@ -6,6 +6,8 @@ import lombok.Data;
 public class UserVO {
     private String username;
     private String password;
+    private Boolean checked;
+
     //验证码
     private String authCode;
     //注册方式

@@ -52,13 +52,13 @@ public class User implements Serializable {
 
         @ApiModelProperty(value = "默认为0,1为删除")
         @TableLogic
-    private Integer deleted;
+        private Integer deleted; //逻辑删除
 
-    @TableField(fill = FieldFill.INSERT)
-    private Date gmtCreate;
+        @TableField(fill = FieldFill.INSERT)
+        private Date gmtCreate;
 
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Date gmtModifified;
+        @TableField(fill = FieldFill.INSERT_UPDATE)
+        private Date gmtModifified;
 
 
 }

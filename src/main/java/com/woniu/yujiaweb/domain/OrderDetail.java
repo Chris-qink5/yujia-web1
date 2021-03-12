@@ -1,5 +1,6 @@
 package com.woniu.yujiaweb.domain;
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import java.util.Date;
@@ -18,6 +19,8 @@ import lombok.experimental.Accessors;
  *
  * @author yym
  * @since 2021-03-11
+ * @author qk
+ * @since 2021-03-08
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -31,6 +34,7 @@ public class OrderDetail implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
+    private Integer orderId;
     private Integer uid;
 
     private String orderId;
@@ -46,6 +50,11 @@ public class OrderDetail implements Serializable {
     private Date createTime;
 
     private Double price;
+    @ApiModelProperty(value = "默认为未支付0，1为已支付")
+    private Integer status;
+
+    @TableLogic
+    private Integer deleted; //逻辑删除
 
     private Integer status;
 

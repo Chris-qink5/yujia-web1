@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+import java.util.List;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -42,6 +44,9 @@ public class Permission implements Serializable {
 
         @ApiModelProperty(value = "上一级权限的id")
         private Integer pid;
+
+        @ApiModelProperty(value = "上一级权限的id")
+        private List<Permission> children;
 
 
 }
