@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 
 @RestControllerAdvice
@@ -24,6 +25,11 @@ public class GlobalException {
         System.out.println("IO异常处理");
         return new Result(false, StatusCode.IOException,"io错误");
     }
+    @ExceptionHandler(MessagingException.class)
+    public Result handlerMessagingException(){
+        System.out.println("IO异常处理");
+        return new Result(false, StatusCode.MessagingException,"发送信息错误");
+    }
     @ExceptionHandler(UnknownAccountException.class)
     @ResponseBody
     public Result handlerUnknownAccountException(){
@@ -36,11 +42,11 @@ public class GlobalException {
         System.out.println("全局异常日志：错误密码");
         return new Result(false, StatusCode.LOGINERROR,"密码错误");
     }
-    @ExceptionHandler(Exception.class)
-    public Result handlerUnknownException(){
-        System.out.println("未知错误");
-        return new Result(false, StatusCode.UnknownException,"未知错误");
-
-    }
+//    @ExceptionHandler(Exception.class)
+//    public Result handlerUnknownException(){
+//        System.out.println("未知错误");
+//        return new Result(false, StatusCode.UnknownException,"未知错误");
+//
+//    }
 
 }
