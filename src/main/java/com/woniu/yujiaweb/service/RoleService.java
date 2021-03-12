@@ -3,7 +3,8 @@ package com.woniu.yujiaweb.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.woniu.yujiaweb.domain.Role;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.woniu.yujiaweb.vo.PageVo;
+import com.woniu.yujiaweb.vo.PageVO;
+
 import com.woniu.yujiaweb.vo.RoleVo;
 
 import java.util.List;
@@ -19,7 +20,7 @@ import java.util.List;
 public interface RoleService extends IService<Role> {
 
     //分页查询所有的角色信息
-    public IPage<Role> findAllRole(PageVo pageVo);
+    public IPage<Role> findAllRole(PageVO pageVo);
 
     //查看所有的角色名称
     public List<Role> findAllRoleName();

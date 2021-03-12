@@ -2,7 +2,7 @@ package com.woniu.yujiaweb.vo;
 
 import lombok.Data;
 @Data
-public class PageUserVo extends PageVo{
+public class PageUserVo extends PageVO{
     private Integer id;
     private String username;
     private String password;

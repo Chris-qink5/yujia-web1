@@ -4,7 +4,7 @@ import lombok.Data;
 
 
 @Data
-public class UserInfoVO extends PageVo {
+public class UserInfoVO extends PageVO {
     private Integer id;
     private String username;
     private String sex;

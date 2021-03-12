@@ -24,12 +24,8 @@ import com.woniu.yujiaweb.util.JWTUtil;
 import com.woniu.yujiaweb.util.MailUtils;
 import com.woniu.yujiaweb.util.SaltUtil;
 
-import com.woniu.yujiaweb.vo.UserInfoVO;
-import com.woniu.yujiaweb.vo.PageGymVo;
-import com.woniu.yujiaweb.vo.PageUserVo;
-import com.woniu.yujiaweb.vo.PageVo;
-import com.woniu.yujiaweb.vo.UserVO;
-import com.woniu.yujiaweb.vo.YuJiaVO;
+import com.woniu.yujiaweb.vo.*;
+
 import io.swagger.annotations.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -273,7 +269,7 @@ public class UserController {
 
 
     @GetMapping("page2")
-    public Result find2Page(PageVo pageVO){
+    public Result find2Page(PageVO pageVO){
         Page<User> filmPage = new Page<>(pageVO.getCurrent(), pageVO.getSize());
         IPage<User> page = userService.page(filmPage, null);
         return new Result(true,StatusCode.OK,"分页查询成功",page);

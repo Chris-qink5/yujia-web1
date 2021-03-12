@@ -9,7 +9,8 @@ import com.woniu.yujiaweb.dto.Result;
 import com.woniu.yujiaweb.dto.StatusCode;
 import com.woniu.yujiaweb.mapper.YogagyminfoMapper;
 import com.woniu.yujiaweb.service.YogagyminfoService;
-import com.woniu.yujiaweb.vo.PageVo;
+import com.woniu.yujiaweb.vo.PageVO;
+
 import com.woniu.yujiaweb.vo.YogagyminfoVO;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,7 +44,7 @@ public class YogagyminfoController {
 
 
     @GetMapping("page2")
-    public Result find2Page(PageVo pageVO){
+    public Result find2Page(PageVO pageVO){
         Page<Yogagyminfo> filmPage = new Page<>(pageVO.getCurrent(), pageVO.getSize());
         IPage<Yogagyminfo> page = yogagyminfoService.page(filmPage, null);
         return new Result(true,StatusCode.OK,"分页查询成功",page);

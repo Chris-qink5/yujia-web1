@@ -7,7 +7,7 @@ import java.util.List;
 
 //场馆的vo类
 @Data
-public class PageGymVo extends PageVo{
+public class PageGymVo extends PageVO{
     private Integer id;
     private String username;
     //场馆电话

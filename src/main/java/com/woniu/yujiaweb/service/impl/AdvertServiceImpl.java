@@ -6,7 +6,8 @@ import com.woniu.yujiaweb.domain.Advert;
 import com.woniu.yujiaweb.mapper.AdvertMapper;
 import com.woniu.yujiaweb.service.AdvertService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.woniu.yujiaweb.vo.PageVo;
+import com.woniu.yujiaweb.vo.PageVO;
+
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -26,7 +27,7 @@ public class AdvertServiceImpl extends ServiceImpl<AdvertMapper, Advert> impleme
     private AdvertMapper advertMapper;
     //查询所有的广告信息
     @Override
-    public IPage<Advert> getAllAdver(PageVo pageVo) {
+    public IPage<Advert> getAllAdver(PageVO pageVo) {
         Page<Advert> advertPage = new Page<>(pageVo.getCurrent(),pageVo.getSize());
         IPage<Advert> allAdvert = advertMapper.selectPage(advertPage, null);
         return allAdvert;
