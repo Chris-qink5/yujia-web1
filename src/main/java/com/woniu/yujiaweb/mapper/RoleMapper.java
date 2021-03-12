@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.woniu.yujiaweb.vo.RoleVo;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
@@ -14,6 +15,7 @@ import org.apache.ibatis.annotations.Update;
  * @author qk
  * @since 2021-03-06
  */
+@Mapper
 public interface RoleMapper extends BaseMapper<Role> {
 
     //根据用户id查询其对应的角色id

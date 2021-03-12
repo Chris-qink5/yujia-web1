@@ -30,6 +30,7 @@ public class YujiaDetail implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
+    private Integer yid;
     private Integer detailId;
 
     private Double coursePrice;
@@ -41,6 +42,11 @@ public class YujiaDetail implements Serializable {
     private Integer uId;
 
     private Integer plId;
+    private String coach;
+
+    private Integer uId;
+
+
 
     private String picture;
 

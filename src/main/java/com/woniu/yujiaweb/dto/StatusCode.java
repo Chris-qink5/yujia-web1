@@ -8,6 +8,7 @@ public class StatusCode {
     public static final int ArithemticException=20004;
     public static final int UnknownException=20005;
     public static final int IOException=20005;
+    public static final int RepeatException=20005;
 
 
 

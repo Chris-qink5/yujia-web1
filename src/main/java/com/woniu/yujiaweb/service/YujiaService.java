@@ -5,6 +5,9 @@ import com.woniu.yujiaweb.domain.Yujia;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.woniu.yujiaweb.vo.PageVo;
 import com.woniu.yujiaweb.vo.YujiaVo;
+import com.woniu.yujiaweb.vo.MyYuJiaVO;
+
+import java.util.List;
 
 /**
  * <p>
@@ -15,6 +18,8 @@ import com.woniu.yujiaweb.vo.YujiaVo;
  * @since 2021-03-08
  */
 public interface YujiaService extends IService<Yujia> {
+    public Page<Yujia> getPage(int current,int size);
+    public List<MyYuJiaVO> findMyYuJia(int uid);
 
     //分页查询所有的众筹项目
     public Page<YujiaVo> findAllCJ(YujiaVo yujiaVo);

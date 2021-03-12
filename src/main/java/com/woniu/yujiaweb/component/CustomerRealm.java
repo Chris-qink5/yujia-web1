@@ -78,7 +78,7 @@ public class CustomerRealm extends AuthorizingRealm {
         wrapper.eq("username",username);
         User userDB = userMapper.selectOne(wrapper);
         if (!ObjectUtils.isEmpty(userDB)) {
-
+            redisTemplate.opsForValue().set(userDB.getUsername(),userDB.getId());
             return new SimpleAuthenticationInfo(userDB,
                 userDB.getPassword(),
                 ByteSource.Util.bytes(userDB.getSalt()),

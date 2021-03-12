@@ -3,6 +3,7 @@ package com.woniu.yujiaweb.controller;
 
 import com.alibaba.druid.support.spring.stat.annotation.Stat;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.woniu.yujiaweb.domain.Permission;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.woniu.yujiaweb.domain.User;
@@ -15,6 +16,7 @@ import com.woniu.yujiaweb.vo.PageGymVo;
 import com.woniu.yujiaweb.vo.PageUserVo;
 import com.woniu.yujiaweb.vo.PageVo;
 import com.woniu.yujiaweb.vo.UserVO;
+import com.woniu.yujiaweb.vo.YuJiaVO;
 import io.swagger.annotations.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -28,6 +30,7 @@ import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -62,7 +65,7 @@ public class UserController {
     })
     public Result login(@RequestBody UserVO userVO){
         System.out.println("进入login");
-        UsernamePasswordToken token = new UsernamePasswordToken(userVO.getUsername(), userVO.getPassword(),userVO.getChecked());
+        UsernamePasswordToken token = new UsernamePasswordToken(userVO.getUsername(), userVO.getPassword());
         Subject subject = SecurityUtils.getSubject();
         subject.login(token);
 
@@ -78,7 +81,45 @@ public class UserController {
         return new Result(true, StatusCode.OK,"登陆成功",jwtToken);
 
     }
+    //@ApiOperation用于描述接口方法，作用于方法上
+    @ApiOperation(value = "查找一级列表",notes = "<span style='color:red;'>用来查找一级列表</span>")
+    //@ApiImplicitParams用于描述接口参数
+    @ApiResponses({
+            @ApiResponse(code =20000,message = "一级列表查找成功"),
 
+    })
+    @ApiImplicitParams({
+            //dataType:参数类型
+            //paramType:参数由哪里获取     path->从路径中获取，query->?传参，body->ajax请求
+            @ApiImplicitParam(name = "userVO",value = "用户名于密码组成的用户",dataType = "UserVO",example = "{username:'tom',password:'xxx'}"),
+
+    })
+    @RequestMapping("findManue")
+    @ResponseBody
+    public Result findManue(@RequestBody UserVO userVO){
+        System.out.println("进入find"+userVO.getUsername());
+        List<Permission> rootManue = userService.findManue(userVO.getUsername());
+        return new Result(true, StatusCode.OK,"一级列表查找成功",rootManue);
+
+    }
+    @ApiOperation(value = "查找二级列表",notes = "<span style='color:red;'>用来查找二级列表</span>")
+    //@ApiImplicitParams用于描述接口参数
+    @ApiResponses({
+            @ApiResponse(code =20000,message = "二级列表查找成功"),
+
+    })
+    @ApiImplicitParams({
+            //dataType:参数类型
+            //paramType:参数由哪里获取     path->从路径中获取，query->?传参，body->ajax请求
+            @ApiImplicitParam(name = "userVO",value = "用户名于密码组成的用户",dataType = "UserVO",example = "{username:'tom',password:'xxx'}"),
+
+    })
+    @RequestMapping("findManue2")
+    @ResponseBody
+    public Result findManue2(@RequestBody UserVO userVO){
+        System.out.println("进入find"+userVO.getUsername());
+        List<Permission> rootManue = userService.findManue2(userVO.getUsername());
+        return new Result(true, StatusCode.OK," ",rootManue);
     //退出登录
     @GetMapping("/logout")
     public Result logout(){
@@ -91,6 +132,54 @@ public class UserController {
         redisTemplate.opsForValue().set("name","tom");
         return new Result(true, StatusCode.OK,"登陆成功");
 
+    }
+    @ApiOperation(value = "退出登陆",notes = "<span style='color:red;'>用来退出登陆</span>")
+    //@ApiImplicitParams用于描述接口参数
+    @ApiResponses({
+            @ApiResponse(code =20000,message = "注销成功"),
+
+    })
+    @ApiImplicitParams({
+            //dataType:参数类型
+            //paramType:参数由哪里获取     path->从路径中获取，query->?传参，body->ajax请求
+            @ApiImplicitParam(name = "userVO",value = "用户名于密码组成的用户",dataType = "UserVO",example = "{username:'tom',password:'xxx'}"),
+
+    })
+    @PostMapping("/logout")
+    public Result show(@RequestBody UserVO userVO){
+        System.out.println("进入logout");
+       redisTemplate.delete(userVO.getUsername());
+        return new Result(true, StatusCode.OK,"注销成功");
+
+    }
+
+    @ApiOperation(value = "退出登陆",notes = "<span style='color:red;'>用来退出登陆</span>")
+    //@ApiImplicitParams用于描述接口参数
+    @ApiResponses({
+            @ApiResponse(code =20000,message = "注销成功"),
+
+    })
+    @ApiImplicitParams({
+            //dataType:参数类型
+            //paramType:参数由哪里获取     path->从路径中获取，query->?传参，body->ajax请求
+            @ApiImplicitParam(name = "userVO",value = "用户名于密码组成的用户",dataType = "UserVO",example = "{username:'tom',password:'xxx'}"),
+
+    })
+    @GetMapping("/findPlace")
+    public Result findPlace(){
+        List<User> place = userService.findPlace();
+        ArrayList<String> places = new ArrayList<>();
+        place.forEach(p->{
+            places.add(p.getUsername());
+        });
+        return new Result(true, StatusCode.OK,"查询场馆成功",places);
+    }
+
+    @PostMapping("/findYPlace")
+    @ResponseBody
+    public Result findYPlace(@RequestBody YuJiaVO yuJiaVO){
+        List<User> yPlace = userService.findYPlace(yuJiaVO.getYid());
+        return new Result(true, StatusCode.OK,"查询发起众筹的场馆成功",yPlace);
     }
 
     //获取所有的学员信息

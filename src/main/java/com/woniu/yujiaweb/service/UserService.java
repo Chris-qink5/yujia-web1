@@ -2,10 +2,13 @@ package com.woniu.yujiaweb.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.woniu.yujiaweb.domain.Permission;
 import com.woniu.yujiaweb.domain.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.woniu.yujiaweb.vo.PageGymVo;
 import com.woniu.yujiaweb.vo.PageUserVo;
+
+import java.util.List;
 
 import java.util.List;
 
@@ -18,6 +21,10 @@ import java.util.List;
  * @since 2021-03-06
  */
 public interface UserService extends IService<User> {
+    public List<Permission> findManue(String username);
+    public List<Permission> findManue2(String username);
+    public List<User>  findPlace();
+    public List<User>  findYPlace(int yid);
 
 
     //查询所有的学员信息

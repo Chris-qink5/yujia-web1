@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
@@ -17,6 +18,7 @@ import java.util.List;
  * @author qk
  * @since 2021-03-06
  */
+@Mapper
 public interface PermissionMapper extends BaseMapper<Permission> {
 
     //通过角色id查询某个角色所拥有的权限
