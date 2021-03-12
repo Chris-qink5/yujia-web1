@@ -1,4 +1,37 @@
+#
+#spring.redis.host=localhost
+#spring.redis.port=6379
+#spring.redis.database=0
+#spring.datasource.type=com.alibaba.druid.pool.DruidDataSource
+#spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+#spring.datasource.url=jdbc:mysql:///stage3pro?characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+#spring.datasource.username=root
+#spring.datasource.password=
+#server.port=8888
+#mybatis-plus.configuration.log-impl=org.apache.ibatis.logging.stdout.StdOutImpl
+#spring.servlet.multipart.enabled=true
+#spring.servlet.multipart.max-file-size=100MB
+#spring.servlet.multipart.file-size-threshold=2KB
+#spring.servlet.multipart.max-request-size=215MB
 
+# 应用ID,您的APPID，收款账号既是您的APPID对应支付宝账号
+alipayconfig.app_id = "2021000116669306"
+# 商户私钥，您的PKCS8格式RSA2私钥
+alipayconfig.merchant_private_key = "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDNIkWM+gmgH7Y9N1ip5RMoeMBmQYU1Bzk0swoUirKSOl7R9kPY0On/sCKfDze1CfFdiFU8W6BHfeE0uxzniwwcEHKy4XmAOlMZUFNmDtt7uJL2FnW0UkBGDfZDiX8CZNHOAPbYpspAxOckHzU3U92EntxXV8XuXFItxkv3+p5aKDYXTr6rRQehorYAPRCvtgETzpsqa1FMGv5ZM9kdkbdpXJQzLgoEPIOo1o3+ij9KO9B0rhomJAI1BYaUzCdJUYaFmBr+U0nweBZwJkxII8eUfPW41oUvqJE2DSOr/dHki9XAwIc6XjtRV67YuGQBNBYPYEMSOvNcd0VYY5UpRfFDAgMBAAECggEAE8te0r+99gmZWEbi82H7e0hLqJJh/D/6MS+lpV3M5XdkdvZAjcd7DQU+EgMx6PJQrCnfr7dXvA5VkPUNUPqF7J9ZshE33DvEkQjDQ3HjlAi3ha+dJA1bzmbCgLnf26dG544IQ9e0ZJObikzIodIh6g46TONXYizecTRVWFSCu0hBzoFmCFeke/i1+/D8dBlm730odKpspWRS2mNECiQwMqaEJV70UnE1xj+RBRtvmgAsNaYVAQSTyXmFegF/fzV7sEn9/YbtQ4Rw71TNGvy/U1NRygYCZTC5wgdgSMzJBrSdM9Gg0PD6pSFj9HAMrlAdPXndNzImG0mhwEfojaaSgQKBgQDtqtXN1Wa9FnsdPCpdkDMlgJmQxS3jqIH9W6i5dAHZYRVRhgce4SkO4yfjXlJR19gEg2fLWhJ6HrZoAJokH0hI0I38H4Ugq49pXL4DI70NtlXaQPuDdi/cZyUsIwlr6/TXV9TLjDlFlcm7cbVVENwNXGsX1mOnBegtZxMsgXQpEwKBgQDc9QFrgKENB00Va4r+DKcq4ZL1RYxkvaDEKNpeG4vi7+FMPAEfODnStZj/m6qKSrpV/SoGnbHNeA63dAOkP7Gvd5pNMyFGzVdARdtlKdTm4R9KNaMgXD1Su8DZknb/Aj0hXh6NGrjP61H+0y0c7jTqMXSntaH5DTfv3smnvgnNEQKBgQDralCltkAyBFamurXsP62p9BwovmeaHYvE/km+iR5byEJpoizjdXxJ9s/H8+Hul7KtpcvmLa4nsMxVcGM+bI4ZMhuyJTalCcrgPrEoQvo83uNjcQKxURxPYQv9ECeA8xRvSdzKUndYaeqM9TD8tdqCkYyy6/WBt+QnNPZVG1WIaQKBgDvPZk7/RpkMPOVrcvhJ3IZTAUC7TsGGQxpWJKYMttT7MfU82ODmi2BqH7wxGvzMNZxJJzMbRKHlubYXBVVUmHhy26XCDWPo+ZFAV58Or76/eYTQ+BMuZLscb5t1dhiZNortuz9e2GAPxuY/q5qFMHWkZXtwQyPzXAzmNZfebTDBAoGADq9EGFuDd2GjCfxQkGyqeZaaP4blDlub0A2AItnoM7yZf2dobLklSzL+PSf/dxa5U/u9iHB5Wl2bXuFp510kYxFuzMUQupbnVsnq07pYosh6ktmhSHrvqp/c1sjw6XRdqxVEYhI92g2FDi55Z/fHQ+Uspx6APUYkbUNIQ2HzITQ="
+# 支付宝公钥,查看地址：https://openhome.alipay.com/platform/keyManage.htm 对应APPID下的支付宝公钥。
+alipayconfig.alipay_public_key = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAng5Sq/fwBiBzfCEIt2flgzIDZjEtW7AUcn+2EsOamwqg1u7r1zfkBm2Coqpw4oZPOeHvGLEeCBZTH5KuhvaW8ibc3av+sXWvZOGZAuvPIXOA5fT5oEZ/HYQD+S6nTemBHWcwEOeDQ3VoJdFj1iEnwB3Vmj6MiIWUzOEZL7XpE38Po6RogPrxd09ddsmRIi3lVNpYKPG51NgctY6CBMGpMc2QbRxpAnjpYgS5Jg/CUdg043HL0Gthjr05vv9Dp+12RMM178Ubo5OAEPJrO0Q9sk18vcPVJo939B4c/79izGF/IEl1D8FyKRtXdbv2C2hSMdazDF/2L+dcTmvltF5tkwIDAQAB"
+# 服务器异步通知页面路径  需http://格式的完整路径，不能加?id=123这类自定义参数
+alipayconfig.notify_url = http://nybi3s.natappfree.cc/#/secuss
+# 页面跳转同步通知页面路径 需http://格式的完整路径，不能加?id=123这类自定义参数
+alipayconfig.return_url = http://nybi3s.natappfree.cc/#/index
+# 签名方式
+alipayconfig.sign_type = RSA2
+# 字符编码格式
+alipayconfig.charset = utf-8
+# 支付宝网关
+alipayconfig.gatewayUrl = https://openapi.alipaydev.com/gateway.do
+# 支付宝网关
+alipayconfig.log_path = "C:\\"
 spring:
   redis:
     host: localhost
@@ -7,11 +40,22 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql:///stage3pro
+    url: jdbc:mysql:///stage3pro?characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     username: root
-    password: 1044
+    password:
 server:
   port: 8888
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  servlet:
+    multipart:
+      enabled: true # 开启文件上传
+      file-size-threshold: 2KB # 文件写入磁盘的阈值
+      max-file-size: 100MB
+      max-request-size: 215MB # 最大请求值大小
+# 自定义文件保存路径
+gorit:
+  file:
+    root:
+     path: D:\idea-project\yujia-web1\target\img
