@@ -5,6 +5,7 @@ import com.woniu.yujiaweb.domain.User;
 import com.woniu.yujiaweb.mapper.UserMapper;
 import com.woniu.yujiaweb.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         permissions.forEach(permission -> {
 
             rootManue.add(permission);
+
 
         });
         List<Permission> rootManuelist = removeDuplicate(rootManue);
@@ -78,6 +80,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             }
         }
         return listTemp;
-    }
 
+    }
+    public List<User> findPlace() {
+        List<User> place = userMapper.findPlace();
+        return place;
+    }
+    @Override
+    public List<User> findYPlace(int yid) {
+        List<User> yPlace = userMapper.findYPlace(yid);
+        return yPlace;
+    }
 }

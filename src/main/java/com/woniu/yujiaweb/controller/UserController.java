@@ -18,6 +18,7 @@ import com.woniu.yujiaweb.util.JWTUtil;
 import com.woniu.yujiaweb.util.MailUtils;
 import com.woniu.yujiaweb.util.SaltUtil;
 import com.woniu.yujiaweb.vo.UserVO;
+import com.woniu.yujiaweb.vo.YuJiaVO;
 import io.swagger.annotations.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -33,11 +34,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -260,23 +265,76 @@ public class UserController {
         }
         return new Result(true, StatusCode.OK,"发送验证码成功，请注意查收");
     }
+    //@ApiOperation用于描述接口方法，作用于方法上
+    @ApiOperation(value = "查找一级列表",notes = "<span style='color:red;'>用来查找一级列表</span>")
+    //@ApiImplicitParams用于描述接口参数
+    @ApiResponses({
+            @ApiResponse(code =20000,message = "一级列表查找成功"),
 
+    })
+    @ApiImplicitParams({
+            //dataType:参数类型
+            //paramType:参数由哪里获取     path->从路径中获取，query->?传参，body->ajax请求
+            @ApiImplicitParam(name = "userVO",value = "用户名于密码组成的用户",dataType = "UserVO",example = "{username:'tom',password:'xxx'}"),
+
+    })
     @RequestMapping("findManue")
     @ResponseBody
     public Result findManue(@RequestBody UserVO userVO){
         System.out.println("进入find"+userVO.getUsername());
         List<Permission> rootManue = userService.findManue(userVO.getUsername());
-        return new Result(true, StatusCode.OK,"查询一级菜单成功 ",rootManue);
+        return new Result(true, StatusCode.OK,"一级列表查找成功",rootManue);
 
     }
+    @ApiOperation(value = "查找二级列表",notes = "<span style='color:red;'>用来查找二级列表</span>")
+    //@ApiImplicitParams用于描述接口参数
+    @ApiResponses({
+            @ApiResponse(code =20000,message = "二级列表查找成功"),
+
+    })
+    @ApiImplicitParams({
+            //dataType:参数类型
+            //paramType:参数由哪里获取     path->从路径中获取，query->?传参，body->ajax请求
+            @ApiImplicitParam(name = "userVO",value = "用户名于密码组成的用户",dataType = "UserVO",example = "{username:'tom',password:'xxx'}"),
+
+    })
     @RequestMapping("findManue2")
     @ResponseBody
     public Result findManue2(@RequestBody UserVO userVO){
         System.out.println("进入find"+userVO.getUsername());
         List<Permission> rootManue = userService.findManue2(userVO.getUsername());
-        return new Result(true, StatusCode.OK," 查询二级菜单成功",rootManue);
+        return new Result(true, StatusCode.OK," ",rootManue);
 
     }
+    @ApiOperation(value = "退出登陆",notes = "<span style='color:red;'>用来退出登陆</span>")
+    //@ApiImplicitParams用于描述接口参数
+    @ApiResponses({
+            @ApiResponse(code =20000,message = "注销成功"),
+
+    })
+    @ApiImplicitParams({
+            //dataType:参数类型
+            //paramType:参数由哪里获取     path->从路径中获取，query->?传参，body->ajax请求
+            @ApiImplicitParam(name = "userVO",value = "用户名于密码组成的用户",dataType = "UserVO",example = "{username:'tom',password:'xxx'}"),
+
+    })
+    @GetMapping("/findPlace")
+    public Result findPlace(){
+        List<User> place = userService.findPlace();
+        ArrayList<String> places = new ArrayList<>();
+        place.forEach(p->{
+            places.add(p.getUsername());
+        });
+        return new Result(true, StatusCode.OK,"查询场馆成功",places);
+    }
+
+    @PostMapping("/findYPlace")
+    @ResponseBody
+    public Result findYPlace(@RequestBody YuJiaVO yuJiaVO){
+        List<User> yPlace = userService.findYPlace(yuJiaVO.getYid());
+        return new Result(true, StatusCode.OK,"查询发起众筹的场馆成功",yPlace);
+    }
+
 
     @PostMapping("/logout")
     public Result show(@RequestBody UserVO userVO){

@@ -63,6 +63,7 @@ public class MPAutoCodeConfig {
         StrategyConfig strategy = new StrategyConfig();
         // 设置要生成的实体类对应映射的表名
         strategy.setInclude("t_user_wallet");
+        strategy.setInclude("t_yujia_place");
 
         strategy.setTablePrefix("t_");                       //去除表名前缀
 

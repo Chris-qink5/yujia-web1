@@ -56,7 +56,9 @@ public class ShiroConfig {
         map.put("/userInfo/*","anon");
         map.put("/**","jwt");
         //设置黑名单
+
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
+
         return shiroFilterFactoryBean;
     }
 

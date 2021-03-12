@@ -46,15 +46,14 @@ public class GlobalException {
     @ExceptionHandler(MySQLIntegrityConstraintViolationException.class)
     @ResponseBody
     public Result handlerMySQLIntegrityConstraintViolationException(){
-        System.out.println("全局异常日志：已预约，不可重复预约");
-        return new Result(false, StatusCode.RepeatException,"已预约，不可重复预约");
+        System.out.println("全局异常日志：数据已存在，不可重复加入");
+        return new Result(false, StatusCode.RepeatException,"数据已存在，不可重复加入");
     }
-
 //    @ExceptionHandler(Exception.class)
 //    public Result handlerUnknownException(){
 //        System.out.println("未知错误");
 //        return new Result(false, StatusCode.UnknownException,"未知错误");
-//
 //    }
+
 
 }
