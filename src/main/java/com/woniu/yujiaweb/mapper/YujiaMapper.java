@@ -5,14 +5,11 @@ import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.woniu.yujiaweb.domain.Yujia;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.woniu.yujiaweb.vo.PageGymVo;
-import com.woniu.yujiaweb.vo.PageUserVo;
-import com.woniu.yujiaweb.vo.YujiaVo;
+import com.woniu.yujiaweb.vo.AYujiaVo;
+
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
-import com.woniu.yujiaweb.domain.Yujia;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.woniu.yujiaweb.vo.MyYuJiaVO;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
@@ -56,7 +53,7 @@ public interface YujiaMapper extends BaseMapper<Yujia> {
             "JOIN t_user AS u " +
             "on u.id = y.sponsor_id " +
             "${ew.customSqlSegment}")
-    List<YujiaVo> queryAllCJ(Page<YujiaVo> page, @Param(Constants.WRAPPER) QueryWrapper<YujiaVo> queryWrapper);
+    List<AYujiaVo> queryAllCJ(Page<AYujiaVo> page, @Param(Constants.WRAPPER) QueryWrapper<AYujiaVo> queryWrapper);
 
     //对状态未0的项目进行审核
     @Update("UPDATE t_yujia AS y SET y.status = 1 WHERE y.id = #{id}")

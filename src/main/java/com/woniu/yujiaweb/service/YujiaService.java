@@ -3,8 +3,7 @@ package com.woniu.yujiaweb.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.woniu.yujiaweb.domain.Yujia;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.woniu.yujiaweb.vo.PageVo;
-import com.woniu.yujiaweb.vo.YujiaVo;
+import com.woniu.yujiaweb.vo.AYujiaVo;
 import com.woniu.yujiaweb.vo.MyYuJiaVO;
 
 import java.util.List;
@@ -22,10 +21,10 @@ public interface YujiaService extends IService<Yujia> {
     public List<MyYuJiaVO> findMyYuJia(int uid);
 
     //分页查询所有的众筹项目
-    public Page<YujiaVo> findAllCJ(YujiaVo yujiaVo);
+    public Page<AYujiaVo> findAllCJ(AYujiaVo yujiaVo);
 
     //对相应的众筹项目信息作出修改
-    public boolean updateCj(YujiaVo yujiaVo);
+    public boolean updateCj(AYujiaVo yujiaVo);
 
     //对所选中的项目进行删除
     public boolean delCJ(Integer id);

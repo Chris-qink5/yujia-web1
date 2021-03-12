@@ -57,8 +57,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     }
     public List<Permission> findManue2(String username) {
-        System.out.println(username+"进入服务层");
-        int id =(int) redisTemplate.opsForValue().get(username);
+        System.out.println(username + "进入服务层");
+        int id = (int) redisTemplate.opsForValue().get(username);
 
         List<Permission> permissions = userMapper.findManue2(id);
         ArrayList<Permission> rootManue = new ArrayList<>();
@@ -70,9 +70,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         List<Permission> rootManuelist = removeDuplicate(rootManue);
         System.out.println(rootManue);
         return rootManuelist;
-
-    @Resource
-    private UserMapper userMapper;
+    }
 
     //根据角色id查询对应的教练和学员的分页信息
     @Override
@@ -165,7 +163,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         List<PageUserVo> pageUserVos = userMapper.selectUserListPage(userPage,pageUserVoQueryWrapper);
         userPage.setRecords(pageUserVos);//将查询到的数据添加page中的recods中
         return userPage;
-    }
     }
 
     @Override

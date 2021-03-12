@@ -63,12 +63,6 @@ public class YujiaDetailController {
         List<YujiaDetail> list = yujiaDetailService.list(queryWrapper);
         return new Result(true, StatusCode.OK,"详情查询成功",list);
     }
-@RestController
-@RequestMapping("/yujiaDetail")
-public class YujiaDetailController {
-
-    @Resource
-    private YujiaDetailService yujiaDetailService;
 
     //查询众筹项目的详情
     @GetMapping("detail/{id}")

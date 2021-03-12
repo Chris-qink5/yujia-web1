@@ -120,10 +120,6 @@ public class UserController {
         System.out.println("进入find"+userVO.getUsername());
         List<Permission> rootManue = userService.findManue2(userVO.getUsername());
         return new Result(true, StatusCode.OK," ",rootManue);
-    //退出登录
-    @GetMapping("/logout")
-    public Result logout(){
-        return new Result(true, StatusCode.OK,"登陆成功");
     }
 
     @PostMapping("/show")

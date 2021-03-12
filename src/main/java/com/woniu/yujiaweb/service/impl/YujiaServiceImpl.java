@@ -6,17 +6,8 @@ import com.woniu.yujiaweb.domain.Yujia;
 import com.woniu.yujiaweb.mapper.YujiaMapper;
 import com.woniu.yujiaweb.service.YujiaService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.woniu.yujiaweb.vo.AYujiaVo;
 import com.woniu.yujiaweb.vo.MyYuJiaVO;
-import org.springframework.stereotype.Service;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.woniu.yujiaweb.domain.User;
-import com.woniu.yujiaweb.domain.Yujia;
-import com.woniu.yujiaweb.mapper.UserMapper;
-import com.woniu.yujiaweb.mapper.YujiaMapper;
-import com.woniu.yujiaweb.service.YujiaService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.woniu.yujiaweb.vo.YujiaVo;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -50,13 +41,11 @@ public class YujiaServiceImpl extends ServiceImpl<YujiaMapper, Yujia> implements
         return myYuJia;
     }
 
-    @Resource
-    private YujiaMapper yujiaMapper;
     //查询所有的瑜伽项目
     @Override
-    public Page<YujiaVo> findAllCJ(YujiaVo yujiaVo) {
-        Page<YujiaVo> yujiaVoPage = new Page<>(yujiaVo.getCurrent(),yujiaVo.getSize());
-        QueryWrapper<YujiaVo> yujiaVoQueryWrapper = new QueryWrapper<>();
+    public Page<AYujiaVo> findAllCJ(AYujiaVo yujiaVo) {
+        Page<AYujiaVo> yujiaVoPage = new Page<>(yujiaVo.getCurrent(),yujiaVo.getSize());
+        QueryWrapper<AYujiaVo> yujiaVoQueryWrapper = new QueryWrapper<>();
         yujiaVoQueryWrapper.eq("y.deleted",0);
         System.out.println(yujiaVo.getStartNumber());
         System.out.println(yujiaVo.getEndNumber());
@@ -79,14 +68,14 @@ public class YujiaServiceImpl extends ServiceImpl<YujiaMapper, Yujia> implements
             }
         }
         //再去进行分页查询
-        List<YujiaVo> yujiaVos = yujiaMapper.queryAllCJ(yujiaVoPage, yujiaVoQueryWrapper);
+        List<AYujiaVo> yujiaVos = yujiaMapper.queryAllCJ(yujiaVoPage, yujiaVoQueryWrapper);
         yujiaVoPage.setRecords(yujiaVos);
         return yujiaVoPage;
     }
 
     //对相应的众筹项目进行修改
     @Override
-    public boolean updateCj(YujiaVo yujiaVo) {
+    public boolean updateCj(AYujiaVo yujiaVo) {
         int i = yujiaMapper.updateById(yujiaVo);
         if(i> 0){
             return true;

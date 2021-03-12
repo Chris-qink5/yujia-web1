@@ -44,8 +44,6 @@ public class YujiaDetail implements Serializable {
     private Integer plId;
     private String coach;
 
-    private Integer uId;
-
 
 
     private String picture;
