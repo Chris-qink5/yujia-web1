@@ -44,11 +44,19 @@ public class ShiroConfig {
         LinkedHashMap<String,String> map=new LinkedHashMap<>();
         //设置白名单
         map.put("/user/login","anon");
+        map.put("/user/register","anon");
+        map.put("/user/index","anon");
+        map.put("/user/getAuthCode","anon");
+        map.put("/user/getpassword","anon");
+        map.put("/user/mywallet","anon");
+        map.put("/user/findcoach","anon");
+        map.put("/user/myorder","anon");
+        map.put("/userInfo/getUsersInfoByUsername/*","anon");
+        map.put("/userInfo/updateUserInfo","anon");
+        map.put("/userInfo/*","anon");
         map.put("/**","jwt");
         //设置黑名单
-
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
-
         return shiroFilterFactoryBean;
     }
 

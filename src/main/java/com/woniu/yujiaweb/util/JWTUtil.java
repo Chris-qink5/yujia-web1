@@ -9,6 +9,7 @@ import java.util.*;
 
 public  class JWTUtil {
     private static String username;
+    //存储用户名集合
     private static HashSet<String> usernames;
 //    过期时间
     private static final Long EXPIRE_TIME=6*60*60*1000L;

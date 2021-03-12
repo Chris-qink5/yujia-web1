@@ -26,10 +26,10 @@ public class MPAutoCodeConfig {
 
         String projectPath = System.getProperty("user.dir");   //获取当前项目所在目录
         gc.setOutputDir(projectPath+"\\src\\main\\java");         //自定义代码生成后的存放目录
-        gc.setAuthor("qk");                            //设置项目作者
+        gc.setAuthor("yym");                            //设置项目作者
         gc.setOpen(false);                                     //代码生成后是否打开文件夹
 
-        gc.setFileOverride(true);                             //是否覆盖
+        gc.setFileOverride(false);                             //是否覆盖
 
         gc.setServiceName("%sService");                        //去Service的I前缀
         gc.setIdType(IdType.ID_WORKER);                        //自定义主键生成策略
@@ -40,10 +40,10 @@ public class MPAutoCodeConfig {
         //2、设置数据源:
         // https://baomidou.com/config/generator-config.html#%E6%95%B0%E6%8D%AE%E6%BA%90-datasourceconfig-%E9%85%8D%E7%BD%AE
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql:///stage3pro?characterEncoding=utf-8");
+        dsc.setUrl("jdbc:mysql:///yujia?characterEncoding=utf-8");
         dsc.setDriverName("com.mysql.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("1044");
+        dsc.setPassword("");
         dsc.setDbType(DbType.MYSQL);                          //指定数据库类型
 
         autoGenerator.setDataSource(dsc);                     //添加数据源配置
@@ -62,7 +62,7 @@ public class MPAutoCodeConfig {
         // https://baomidou.com/config/generator-config.html#%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E9%85%8D%E7%BD%AE
         StrategyConfig strategy = new StrategyConfig();
         // 设置要生成的实体类对应映射的表名
-        strategy.setInclude("t_user");
+        strategy.setInclude("t_user_wallet");
 
         strategy.setTablePrefix("t_");                       //去除表名前缀
 
@@ -75,12 +75,12 @@ public class MPAutoCodeConfig {
         strategy.setEntityLombokModel(true);                 //自动lombok；
         strategy.setLogicDeleteFieldName("deleted");         //设置使用逻辑删除策略的属性名
 //         自动填充配置 TableFill
-        TableFill gmtCreate = new TableFill("gmt_create", FieldFill.INSERT);
-        TableFill gmtModified = new TableFill("gmt_modifified", FieldFill.INSERT_UPDATE);
-        ArrayList<com.baomidou.mybatisplus.generator.config.po.TableFill> tableFills = new ArrayList<>();
-        tableFills.add(gmtCreate);
-        tableFills.add(gmtModified);
-        strategy.setTableFillList(tableFills);
+//        TableFill gmtCreate = new TableFill("gmt_create", FieldFill.INSERT);
+//        TableFill gmtModified = new TableFill("gmt_modifified", FieldFill.INSERT_UPDATE);
+//        ArrayList<com.baomidou.mybatisplus.generator.config.po.TableFill> tableFills = new ArrayList<>();
+//        tableFills.add(gmtCreate);
+//        tableFills.add(gmtModified);
+//        strategy.setTableFillList(tableFills);
 
 //        strategy.setVersionFieldName("version");             // 乐观锁
 //        strategy.setRestControllerStyle(true);               //生成 @RestController 控制器

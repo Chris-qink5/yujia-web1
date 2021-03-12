@@ -48,11 +48,6 @@ public class AliyunSmsUtils {
 		request.setSignName("龙猫仔"); // TODO 修改成自己的
 		// 必填:短信模板-可在短信控制台-模板管理中找到
 		request.setTemplateCode("SMS_168827525"); // TODO 修改成自己的
-		
-		
-
-
-
 		// 可选:模板中的变量替换JSON串,如模板内容为"亲爱的${name},您的验证码为${code}"时,此处的值为
 		// request.setTemplateParam("{\"name\":\"Tom\", \"code\":\"123\"}");
 		request.setTemplateParam("{\"code\":\"" + code + "\"}");
@@ -102,7 +97,7 @@ public class AliyunSmsUtils {
 		String code = getNewcode();//
 		System.out.println("发送的验证码为：" + code);
 		// 发短信
-		SendSmsResponse response = sendSms("17358331680", code); // TODO 填写你需要测试的手机号码
+		SendSmsResponse response = sendSms("15823336374", code); // TODO 填写你需要测试的手机号码
 		System.out.println("短信接口返回的数据----------------");
 		System.out.println("Code=" + response.getCode());
 		System.out.println("Message=" + response.getMessage());
