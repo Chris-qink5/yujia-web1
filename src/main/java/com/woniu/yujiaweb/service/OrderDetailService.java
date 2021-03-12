@@ -18,10 +18,6 @@ import java.util.List;
  */
 public interface OrderDetailService extends IService<OrderDetail> {
     List<OrderDetail> findOrderDetail(String username);
- * @author qk
- * @since 2021-03-08
- */
-public interface OrderDetailService extends IService<OrderDetail> {
 
     //查询所有的订单信息
     public Page<OrderDetailVo> queryAllDetail(OrderDetailVo orderDetailVo);

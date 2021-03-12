@@ -34,7 +34,6 @@ public class OrderDetail implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private Integer orderId;
     private Integer uid;
 
     private String orderId;
@@ -56,7 +55,6 @@ public class OrderDetail implements Serializable {
     @TableLogic
     private Integer deleted; //逻辑删除
 
-    private Integer status;
 
 
 }

@@ -7,7 +7,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql:///stage3pro?characterEncoding=UTF-8
+    url: jdbc:mysql:///yujia?characterEncoding=UTF-8
     username: root
     password:
 server:

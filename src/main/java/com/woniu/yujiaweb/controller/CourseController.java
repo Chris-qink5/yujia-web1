@@ -11,7 +11,7 @@ import com.woniu.yujiaweb.dto.Result;
 import com.woniu.yujiaweb.dto.StatusCode;
 import com.woniu.yujiaweb.service.CourseService;
 import com.woniu.yujiaweb.service.OrderDetailService;
-import com.woniu.yujiaweb.vo.PageVO;
+import com.woniu.yujiaweb.vo.PageVo;
 import com.woniu.yujiaweb.vo.RowVO;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,7 +45,7 @@ public class CourseController {
     private OrderDetailService orderDetailService;
     @GetMapping("/findCoachs")
     @ResponseBody
-    private Result findCoachs(PageVO pageVO){
+    private Result findCoachs(PageVo pageVO){
         Page<Course> coursePage = new Page<>(pageVO.getCurrent(),pageVO.getSize());
         IPage<Course> page = courseService.page(coursePage,null);
         return new Result(true, StatusCode.OK,"查询所有教练",page);

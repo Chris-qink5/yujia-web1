@@ -26,10 +26,7 @@ public interface OrderDetailMapper extends BaseMapper<OrderDetail> {
             "from t_order_detail od " +
             "where od.username=#{username}")
     List<OrderDetail> findOrderDetail(String username);
- * @author qk
- * @since 2021-03-08
- */
-public interface OrderDetailMapper extends BaseMapper<OrderDetail> {
+
     @Select("SELECT uo.id,uo.uname,uo.cname,c.course_name,c.course_money,od.create_time,od.status FROM " +
             "t_user_order AS uo " +
             "JOIN t_order_detail AS od " +

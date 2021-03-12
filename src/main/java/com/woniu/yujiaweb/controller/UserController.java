@@ -1,6 +1,7 @@
 package com.woniu.yujiaweb.controller;
 
 
+import com.aliyuncs.exceptions.ClientException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.woniu.yujiaweb.domain.Permission;
@@ -16,11 +17,16 @@ import com.woniu.yujiaweb.service.UserService;
 import com.woniu.yujiaweb.service.impl.UserServiceImpl;
 import com.woniu.yujiaweb.util.AliyunSmsUtils;
 import com.woniu.yujiaweb.util.JWTUtil;
+import com.woniu.yujiaweb.util.MailUtils;
+import com.woniu.yujiaweb.util.SaltUtil;
+import com.woniu.yujiaweb.vo.PageGymVo;
+import com.woniu.yujiaweb.vo.PageUserVo;
 import com.woniu.yujiaweb.vo.UserVO;
 import com.woniu.yujiaweb.vo.YuJiaVO;
 import io.swagger.annotations.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -308,13 +314,6 @@ public class UserController {
         return new Result(true, StatusCode.OK," ",rootManue);
     }
 
-    @PostMapping("/show")
-    public Result show(){
-        System.out.println("进入show");
-        redisTemplate.opsForValue().set("name","tom");
-        return new Result(true, StatusCode.OK,"登陆成功");
-
-    }
     @ApiOperation(value = "退出登陆",notes = "<span style='color:red;'>用来退出登陆</span>")
     //@ApiImplicitParams用于描述接口参数
     @ApiResponses({

@@ -1,7 +1,6 @@
 package com.woniu.yujiaweb.controller;
 
 
-<<<<<<< HEAD
 import com.woniu.yujiaweb.dto.Result;
 import com.woniu.yujiaweb.dto.StatusCode;
 import com.woniu.yujiaweb.service.OrderDetailService;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ResponseBody;
-=======
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.woniu.yujiaweb.dto.Result;
 import com.woniu.yujiaweb.dto.StatusCode;
@@ -20,7 +18,6 @@ import com.woniu.yujiaweb.vo.PageVo;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
->>>>>>> adminYw
 
 import javax.annotation.Resource;
 

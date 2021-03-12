@@ -32,14 +32,7 @@ public class OrderDetailServiceImpl extends ServiceImpl<OrderDetailMapper, Order
         List<OrderDetail> orderDetails = orderDetailMapper.findOrderDetail(username);
         return orderDetails;
     }
- * @author qk
- * @since 2021-03-08
- */
-@Service
-public class OrderDetailServiceImpl extends ServiceImpl<OrderDetailMapper, OrderDetail> implements OrderDetailService {
 
-    @Resource
-    private OrderDetailMapper orderDetailMapper;
     //查询所有订单信息
     @Override
     public Page<OrderDetailVo> queryAllDetail(OrderDetailVo orderDetailVo) {
