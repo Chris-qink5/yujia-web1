@@ -13,10 +13,11 @@ import java.util.List;
  *  服务类
  * </p>
  *
- * @author qk
- * @since 2021-03-08
+ * @author yym
+ * @since 2021-03-11
  */
 public interface OrderDetailService extends IService<OrderDetail> {
+    List<OrderDetail> findOrderDetail(String username);
 
     //查询所有的订单信息
     public Page<OrderDetailVo> queryAllDetail(OrderDetailVo orderDetailVo);

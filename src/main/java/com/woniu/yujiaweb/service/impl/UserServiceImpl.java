@@ -30,7 +30,7 @@ import java.util.List;
  *  服务实现类
  * </p>
  *
- * @author qk
+ * @author yym
  * @since 2021-03-06
  */
 @Service
@@ -48,7 +48,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         ArrayList<Permission> rootManue = new ArrayList<>();
         permissions.forEach(permission -> {
 
-                rootManue.add(permission);
+            rootManue.add(permission);
+
 
         });
         List<Permission> rootManuelist = removeDuplicate(rootManue);
@@ -166,15 +167,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public List<User> findPlace() {
-        List<User> place = userMapper.findPlace();
-        return place;
-    }
-
-    @Override
-    public List<User> findYPlace(int yid) {
-        List<User> yPlace = userMapper.findYPlace(yid);
-        return yPlace;
+    public void saveUserAndRole(String uid, String rid) {
+        //向数据库保存数据
+        userMapper.saveUserAndRole(uid,rid);
     }
 
     /**
@@ -188,5 +183,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             }
         }
         return listTemp;
+
+    }
+    public List<User> findPlace() {
+        List<User> place = userMapper.findPlace();
+        return place;
+    }
+    @Override
+    public List<User> findYPlace(int yid) {
+        List<User> yPlace = userMapper.findYPlace(yid);
+        return yPlace;
     }
 }

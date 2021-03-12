@@ -1,6 +1,5 @@
 package com.woniu.yujiaweb.domain;
 
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import java.util.Date;
@@ -19,15 +18,13 @@ import lombok.experimental.Accessors;
  *
  * @author yym
  * @since 2021-03-11
- * @author qk
- * @since 2021-03-08
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("t_order_detail")
-@ApiModel(value="OrderDetail对象", description="")
-public class OrderDetail implements Serializable {
+@TableName("t_course")
+@ApiModel(value="Course对象", description="")
+public class Course implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -36,25 +33,13 @@ public class OrderDetail implements Serializable {
 
     private Integer uid;
 
-    private String orderId;
-
-    private String username;
-
     private String coachName;
 
     private String courseName;
 
     private Date courseTime;
 
-    private Date createTime;
-
-    private Double price;
-    @ApiModelProperty(value = "默认为未支付0，1为已支付")
-    private Integer status;
-
-    @TableLogic
-    private Integer deleted; //逻辑删除
-
+    private Double courseMoney;
 
 
 }

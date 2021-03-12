@@ -36,7 +36,6 @@ public class GlobalException {
         System.out.println("全局异常日志：错误密码");
         return new Result(false, StatusCode.LOGINERROR,"密码错误");
     }
-
     @ExceptionHandler(MySQLIntegrityConstraintViolationException.class)
     @ResponseBody
     public Result handlerMySQLIntegrityConstraintViolationException(){
@@ -48,5 +47,6 @@ public class GlobalException {
 //        System.out.println("未知错误");
 //        return new Result(false, StatusCode.UnknownException,"未知错误");
 //    }
+
 
 }

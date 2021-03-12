@@ -17,10 +17,16 @@ import java.util.List;
  *  Mapper 接口
  * </p>
  *
- * @author qk
- * @since 2021-03-08
+ * @author yym
+ * @since 2021-03-11
  */
 public interface OrderDetailMapper extends BaseMapper<OrderDetail> {
+
+    @Select("select  od.* " +
+            "from t_order_detail od " +
+            "where od.username=#{username}")
+    List<OrderDetail> findOrderDetail(String username);
+
     @Select("SELECT uo.id,uo.uname,uo.cname,c.course_name,c.course_money,od.create_time,od.status FROM " +
             "t_user_order AS uo " +
             "JOIN t_order_detail AS od " +

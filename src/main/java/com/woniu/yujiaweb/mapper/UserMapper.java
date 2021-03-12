@@ -14,6 +14,11 @@ import org.apache.ibatis.annotations.Select;
 import javax.jws.soap.SOAPBinding;
 import java.sql.Wrapper;
 import java.util.List;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -39,6 +44,9 @@ public interface UserMapper extends BaseMapper<User> {
             "            INNER JOIN t_user_role ur ON r.`id`=ur.`rid` " +
             "            INNER JOIN `t_user` u ON ur.`uid`=u.`id` WHERE u.`id`=#{uid} AND p.`perssion_level`=1")
     public List<Permission> findManue2(int uid);
+
+    @Insert("insert into t_user_role (uid,rid) values (#{uid},#{rid})")
+    void saveUserAndRole(String uid,String rid);
 
     //获取所有的学员信息
     @Select("SELECT u.id,u.username,u.tel,u.email,ur.rid,ui.score,ui.spend,ui.sex,ui.nickname,r.id " +

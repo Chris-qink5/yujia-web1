@@ -1,10 +1,9 @@
 package com.woniu.yujiaweb.domain;
 
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -18,16 +17,14 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author yym
- * @since 2021-03-11
- * @author qk
- * @since 2021-03-08
+ * @since 2021-03-09
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("t_order_detail")
-@ApiModel(value="OrderDetail对象", description="")
-public class OrderDetail implements Serializable {
+@TableName("t_user_info")
+@ApiModel(value="UserInfo对象", description="")
+public class UserInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -36,25 +33,27 @@ public class OrderDetail implements Serializable {
 
     private Integer uid;
 
-    private String orderId;
-
     private String username;
 
-    private String coachName;
+    @TableField("bankCard")
+    private String bankCard;
 
-    private String courseName;
+    private Double score;
 
-    private Date courseTime;
+    private Double spend;
 
-    private Date createTime;
+        @ApiModelProperty(value = "用户没有填写，默认保密")
+        private String sex;
 
-    private Double price;
-    @ApiModelProperty(value = "默认为未支付0，1为已支付")
-    private Integer status;
+        @ApiModelProperty(value = "默认为0保密，1为公开")
+        private Integer secret;
 
-    @TableLogic
-    private Integer deleted; //逻辑删除
+        @ApiModelProperty(value = "默认为0好友公开，1为全部公开")
+        private Integer open;
 
+    private String userHeadPortrait;
+
+    private String nickname;
 
 
 }

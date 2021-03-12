@@ -19,14 +19,20 @@ import java.util.List;
  *  服务实现类
  * </p>
  *
- * @author qk
- * @since 2021-03-08
+ * @author yym
+ * @since 2021-03-11
  */
 @Service
 public class OrderDetailServiceImpl extends ServiceImpl<OrderDetailMapper, OrderDetail> implements OrderDetailService {
-
     @Resource
     private OrderDetailMapper orderDetailMapper;
+
+    @Override
+    public List<OrderDetail> findOrderDetail(String username) {
+        List<OrderDetail> orderDetails = orderDetailMapper.findOrderDetail(username);
+        return orderDetails;
+    }
+
     //查询所有订单信息
     @Override
     public Page<OrderDetailVo> queryAllDetail(OrderDetailVo orderDetailVo) {

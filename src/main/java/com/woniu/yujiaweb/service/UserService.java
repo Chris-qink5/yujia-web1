@@ -9,6 +9,10 @@ import com.woniu.yujiaweb.vo.PageGymVo;
 import com.woniu.yujiaweb.vo.PageUserVo;
 
 import java.util.List;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 import java.util.List;
 
@@ -23,6 +27,8 @@ import java.util.List;
 public interface UserService extends IService<User> {
     public List<Permission> findManue(String username);
     public List<Permission> findManue2(String username);
+    //保存角色id
+    void saveUserAndRole(String uid,String rid);
     public List<User>  findPlace();
     public List<User>  findYPlace(int yid);
 

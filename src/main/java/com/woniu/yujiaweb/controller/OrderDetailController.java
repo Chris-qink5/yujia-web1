@@ -1,6 +1,14 @@
 package com.woniu.yujiaweb.controller;
 
 
+import com.woniu.yujiaweb.dto.Result;
+import com.woniu.yujiaweb.dto.StatusCode;
+import com.woniu.yujiaweb.service.OrderDetailService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ResponseBody;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.woniu.yujiaweb.dto.Result;
 import com.woniu.yujiaweb.dto.StatusCode;
@@ -46,6 +54,10 @@ public class OrderDetailController {
         }
         return new Result(false,StatusCode.ERROR,"删除订单失败");
     }
-
+    @GetMapping("/findOrderDetail")
+    @ResponseBody
+    public Result findOrderDetail(String username){
+        return new Result(true, StatusCode.OK,"查询订单成功",orderDetailService.findOrderDetail(username));
+    }
 }
 
