@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Data
 @Configuration
 @ConfigurationProperties(prefix = "alipayconfig",ignoreUnknownFields = false)
-@PropertySource("classpath:application.properties")//读取配置文件
+@PropertySource("classpath:application.yml")//读取配置文件
 @Component
 public class AlipayConfig implements Serializable {
     // 应用ID

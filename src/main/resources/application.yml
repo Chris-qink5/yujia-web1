@@ -14,23 +14,23 @@
 #spring.servlet.multipart.file-size-threshold=2KB
 #spring.servlet.multipart.max-request-size=215MB
 
-# Ó¦ÓÃID,ÄúµÄAPPID£¬ÊÕ¿îÕËºÅ¼ÈÊÇÄúµÄAPPID¶ÔÓ¦Ö§¸¶±¦ÕËºÅ
+# Ó¦ï¿½ï¿½ID,ï¿½ï¿½ï¿½ï¿½APPIDï¿½ï¿½ï¿½Õ¿ï¿½ï¿½ËºÅ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½APPIDï¿½ï¿½Ó¦Ö§ï¿½ï¿½ï¿½ï¿½ï¿½Ëºï¿½
 alipayconfig.app_id = "2021000116669306"
-# ÉÌ»§Ë½Ô¿£¬ÄúµÄPKCS8¸ñÊ½RSA2Ë½Ô¿
+# ï¿½Ì»ï¿½Ë½Ô¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½PKCS8ï¿½ï¿½Ê½RSA2Ë½Ô¿
 alipayconfig.merchant_private_key = "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDNIkWM+gmgH7Y9N1ip5RMoeMBmQYU1Bzk0swoUirKSOl7R9kPY0On/sCKfDze1CfFdiFU8W6BHfeE0uxzniwwcEHKy4XmAOlMZUFNmDtt7uJL2FnW0UkBGDfZDiX8CZNHOAPbYpspAxOckHzU3U92EntxXV8XuXFItxkv3+p5aKDYXTr6rRQehorYAPRCvtgETzpsqa1FMGv5ZM9kdkbdpXJQzLgoEPIOo1o3+ij9KO9B0rhomJAI1BYaUzCdJUYaFmBr+U0nweBZwJkxII8eUfPW41oUvqJE2DSOr/dHki9XAwIc6XjtRV67YuGQBNBYPYEMSOvNcd0VYY5UpRfFDAgMBAAECggEAE8te0r+99gmZWEbi82H7e0hLqJJh/D/6MS+lpV3M5XdkdvZAjcd7DQU+EgMx6PJQrCnfr7dXvA5VkPUNUPqF7J9ZshE33DvEkQjDQ3HjlAi3ha+dJA1bzmbCgLnf26dG544IQ9e0ZJObikzIodIh6g46TONXYizecTRVWFSCu0hBzoFmCFeke/i1+/D8dBlm730odKpspWRS2mNECiQwMqaEJV70UnE1xj+RBRtvmgAsNaYVAQSTyXmFegF/fzV7sEn9/YbtQ4Rw71TNGvy/U1NRygYCZTC5wgdgSMzJBrSdM9Gg0PD6pSFj9HAMrlAdPXndNzImG0mhwEfojaaSgQKBgQDtqtXN1Wa9FnsdPCpdkDMlgJmQxS3jqIH9W6i5dAHZYRVRhgce4SkO4yfjXlJR19gEg2fLWhJ6HrZoAJokH0hI0I38H4Ugq49pXL4DI70NtlXaQPuDdi/cZyUsIwlr6/TXV9TLjDlFlcm7cbVVENwNXGsX1mOnBegtZxMsgXQpEwKBgQDc9QFrgKENB00Va4r+DKcq4ZL1RYxkvaDEKNpeG4vi7+FMPAEfODnStZj/m6qKSrpV/SoGnbHNeA63dAOkP7Gvd5pNMyFGzVdARdtlKdTm4R9KNaMgXD1Su8DZknb/Aj0hXh6NGrjP61H+0y0c7jTqMXSntaH5DTfv3smnvgnNEQKBgQDralCltkAyBFamurXsP62p9BwovmeaHYvE/km+iR5byEJpoizjdXxJ9s/H8+Hul7KtpcvmLa4nsMxVcGM+bI4ZMhuyJTalCcrgPrEoQvo83uNjcQKxURxPYQv9ECeA8xRvSdzKUndYaeqM9TD8tdqCkYyy6/WBt+QnNPZVG1WIaQKBgDvPZk7/RpkMPOVrcvhJ3IZTAUC7TsGGQxpWJKYMttT7MfU82ODmi2BqH7wxGvzMNZxJJzMbRKHlubYXBVVUmHhy26XCDWPo+ZFAV58Or76/eYTQ+BMuZLscb5t1dhiZNortuz9e2GAPxuY/q5qFMHWkZXtwQyPzXAzmNZfebTDBAoGADq9EGFuDd2GjCfxQkGyqeZaaP4blDlub0A2AItnoM7yZf2dobLklSzL+PSf/dxa5U/u9iHB5Wl2bXuFp510kYxFuzMUQupbnVsnq07pYosh6ktmhSHrvqp/c1sjw6XRdqxVEYhI92g2FDi55Z/fHQ+Uspx6APUYkbUNIQ2HzITQ="
-# Ö§¸¶±¦¹«Ô¿,²é¿´µØÖ·£ºhttps://openhome.alipay.com/platform/keyManage.htm ¶ÔÓ¦APPIDÏÂµÄÖ§¸¶±¦¹«Ô¿¡£
+# Ö§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¿,ï¿½é¿´ï¿½ï¿½Ö·ï¿½ï¿½https://openhome.alipay.com/platform/keyManage.htm ï¿½ï¿½Ó¦APPIDï¿½Âµï¿½Ö§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¿ï¿½ï¿½
 alipayconfig.alipay_public_key = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAng5Sq/fwBiBzfCEIt2flgzIDZjEtW7AUcn+2EsOamwqg1u7r1zfkBm2Coqpw4oZPOeHvGLEeCBZTH5KuhvaW8ibc3av+sXWvZOGZAuvPIXOA5fT5oEZ/HYQD+S6nTemBHWcwEOeDQ3VoJdFj1iEnwB3Vmj6MiIWUzOEZL7XpE38Po6RogPrxd09ddsmRIi3lVNpYKPG51NgctY6CBMGpMc2QbRxpAnjpYgS5Jg/CUdg043HL0Gthjr05vv9Dp+12RMM178Ubo5OAEPJrO0Q9sk18vcPVJo939B4c/79izGF/IEl1D8FyKRtXdbv2C2hSMdazDF/2L+dcTmvltF5tkwIDAQAB"
-# ·şÎñÆ÷Òì²½Í¨ÖªÒ³ÃæÂ·¾¶  Ğèhttp://¸ñÊ½µÄÍêÕûÂ·¾¶£¬²»ÄÜ¼Ó?id=123ÕâÀà×Ô¶¨Òå²ÎÊı
+# ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ì²½Í¨ÖªÒ³ï¿½ï¿½Â·ï¿½ï¿½  ï¿½ï¿½http://ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü¼ï¿½?id=123ï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 alipayconfig.notify_url = http://nybi3s.natappfree.cc/#/secuss
-# Ò³ÃæÌø×ªÍ¬²½Í¨ÖªÒ³ÃæÂ·¾¶ Ğèhttp://¸ñÊ½µÄÍêÕûÂ·¾¶£¬²»ÄÜ¼Ó?id=123ÕâÀà×Ô¶¨Òå²ÎÊı
+# Ò³ï¿½ï¿½ï¿½ï¿½×ªÍ¬ï¿½ï¿½Í¨ÖªÒ³ï¿½ï¿½Â·ï¿½ï¿½ ï¿½ï¿½http://ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü¼ï¿½?id=123ï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 alipayconfig.return_url = http://nybi3s.natappfree.cc/#/index
-# Ç©Ãû·½Ê½
+# Ç©ï¿½ï¿½ï¿½ï¿½Ê½
 alipayconfig.sign_type = RSA2
-# ×Ö·û±àÂë¸ñÊ½
+# ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½
 alipayconfig.charset = utf-8
-# Ö§¸¶±¦Íø¹Ø
+# Ö§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 alipayconfig.gatewayUrl = https://openapi.alipaydev.com/gateway.do
-# Ö§¸¶±¦Íø¹Ø
+# Ö§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 alipayconfig.log_path = "C:\\"
 spring:
   redis:
@@ -48,13 +48,19 @@ server:
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #é…ç½®é€»è¾‘åˆ é™¤çš„é…ç½®
+  global-config:
+    db-config:
+      logic-not-delete-value: 0
+      logic-delete-value: 1
+
   servlet:
     multipart:
-      enabled: true # ¿ªÆôÎÄ¼şÉÏ´«
-      file-size-threshold: 2KB # ÎÄ¼şĞ´Èë´ÅÅÌµÄãĞÖµ
+      enabled: true # ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ï´ï¿½
+      file-size-threshold: 2KB # ï¿½Ä¼ï¿½Ğ´ï¿½ï¿½ï¿½ï¿½Ìµï¿½ï¿½ï¿½Öµ
       max-file-size: 100MB
-      max-request-size: 215MB # ×î´óÇëÇóÖµ´óĞ¡
-# ×Ô¶¨ÒåÎÄ¼ş±£´æÂ·¾¶
+      max-request-size: 215MB # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½Ğ¡
+# ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½
 gorit:
   file:
     root:
