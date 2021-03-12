@@ -19,7 +19,7 @@ public class MailUtils {
 	//email:邮件发给谁  subject:主题  emailMsg：邮件的内容
 	public static void sendMail(String email, String subject, String emailMsg)
 			throws AddressException, MessagingException {
-		
+
 		// 1.创建一个程序与邮件服务器会话对象 Session
 		Properties props = new Properties();
 		props.setProperty("mail.transport.protocol", "SMTP");//发邮件的协议
